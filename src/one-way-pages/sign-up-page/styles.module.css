@@ -1,0 +1,84 @@
+.signUpWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50%;
+  overflow-wrap: nowrap;
+}
+
+.header {
+  text-align: center;
+  font-size: 24px;
+}
+
+.phoneWrapper {
+  display: flex;
+  overflow-x: hidden;
+}
+.phoneWrapper span {
+  margin-left: 15%;
+}
+
+.bottomText {
+  margin-top: 10px;
+  text-align: center;
+  color: white;
+  font-size: 14px;
+}
+
+.phoneInput {
+  max-width: fit-content;
+  text-align: center;
+}
+
+.phoneInput,
+.UserNameInput {
+  padding: 0;
+  background-color: transparent;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  font-size: 24px;
+}
+
+.phoneInput:focus,
+.UserNameInput:focus {
+  outline: none;
+}
+
+.phoneWrapper:has(.phoneInput:focus) {
+  border-bottom: white;
+}
+
+.phoneInput::placeholder {
+  color: #ffffff3c;
+}
+
+.phoneWrapper,
+.UserNameInput {
+  max-width: 100%;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.UserNameInput {
+  margin: 0;
+  color: white;
+  text-align: center;
+}
+
+.UserNameInput:focus {
+  border-bottom: white;
+}
+
+.phoneWrapper div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  margin-top: 50%;
+}

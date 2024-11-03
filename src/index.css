@@ -1,0 +1,27 @@
+* {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+}
+
+body {
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+}
+
+input {
+  color: white;
+  background: transparent;
+  padding: 10px 20px;
+}
+
+.input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.356);
+}

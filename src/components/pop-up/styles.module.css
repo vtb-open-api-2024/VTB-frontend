@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  min-height: 100%;
+}
+
+.container img {
+  width: 50%;
+}
+
+.container button {
+  width: 100%;
+}
+
+.container p {
+  margin-bottom: auto;
+}
+
+.bottomText {
+  margin-top: 20px;
+  justify-self: flex-end;
+}

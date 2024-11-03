@@ -1,0 +1,137 @@
+.walletViewWrapper {
+  overflow: hidden; /* Prevents showing items outside the view */
+  position: relative;
+  width: 100vw; /* Full viewport width */
+  height: 100%; /* Ensure it takes the full height of the parent */
+}
+
+.walletView {
+  display: flex; /* Align children in a row */
+  transition: transform 0.3s ease; /* Smooth transition for the transform property */
+  width: 100%; /* Full width of the container */
+}
+
+.walletItem {
+  min-width: 100vw; /* Each wallet item takes full viewport width */
+  max-width: 100%; /* Ensure it doesn't exceed the width */
+  padding: 20px 12px; /* Padding for content */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.walletInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  height: 133px;
+  border-radius: 15px;
+  padding: 25px;
+  background: linear-gradient(
+    315deg,
+    rgba(1, 59, 155, 0) 0%,
+    rgba(1, 59, 155, 1) 100%
+  );
+  margin-bottom: 20px;
+}
+
+.walletInfoWrapper h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.walletInfoWrapper h3 {
+  font-size: 28px;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.walletInfoWrapper p {
+  margin: 0;
+  font-size: 28px;
+}
+
+.additionalInfo {
+  border-radius: 10px;
+  padding: 4px 10px;
+  background: linear-gradient(
+    135deg,
+    rgba(40, 122, 244, 1) 0%,
+    rgba(1, 59, 155, 1) 100%
+  );
+  width: fit-content;
+}
+
+.additionalInfo p {
+  font-size: 8px;
+}
+
+/* Additional styles for currencies table, headers, and rows */
+.currenciesTable {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tableHeaders {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  padding: 0 20px;
+  border-bottom: 1px solid #ededed;
+  margin: 0 5px;
+  margin-bottom: 18px;
+}
+
+.tableHeaders h3 {
+  margin: 0;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.currencyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin: 0 25px;
+  margin-left: 17px;
+  margin-bottom: 28px;
+}
+
+.currencyRow img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.currencyInfo {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+}
+
+.currencyInfo h4,
+.currencyAmmountWrapper h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.currencyInfo p,
+.currencyAmmountWrapper p {
+  margin: 0;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.currencyAmmountWrapper p {
+  text-align: end;
+}
+.currencyAmmountWrapper h4 {
+  text-align: end;
+}
+
+.currensyInfoWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
