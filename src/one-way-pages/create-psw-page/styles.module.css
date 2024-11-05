@@ -3,6 +3,10 @@
   flex-direction: column;
   align-items: center;
   overflow-y: hidden;
+  position: absolute;
+  transform: translate(-50%, -35%);
+  top: 50%;
+  left: 50%;
 }
 
 .header {
@@ -18,9 +22,11 @@
 }
 
 .optionView {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   margin: 0;
+  font-weight: 400;
+  text-align: center;
 }
 
 .passwordSquares {

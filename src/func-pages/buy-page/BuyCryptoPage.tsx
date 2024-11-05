@@ -1,17 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
-import { Card, Currency, CurrencyEnum } from "../../types";
-import { useEffect, useRef, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
+import { Card, Currency, CurrencyEnum } from '../../types';
+import { useEffect, useRef, useState } from 'react';
 
 interface iBuyCryptoPage {
   waypoint?: string;
   spareWaypoint?: string;
 }
 
-export const BuyCryptoPage = ({
-  waypoint = "/",
-  spareWaypoint = "/",
-}: iBuyCryptoPage) => {
+export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCryptoPage) => {
   const moveTo = useNavigate();
   const [CardcurrentIndex, setCardCurrentIndex] = useState(0);
   const [CurcurrentIndex, setCurCurrentIndex] = useState(0);
@@ -24,18 +21,18 @@ export const BuyCryptoPage = ({
 
   const cards: Card[] = [
     {
-      id: "dummy",
+      id: 'dummy',
       cardHolderName: undefined,
       CardName: undefined,
-      cardNumber: "2002200220022002",
+      cardNumber: '2002200220022002',
       cardExpiryDate: undefined,
       balance: 10000,
     },
     {
-      id: "dummy2",
+      id: 'dummy2',
       cardHolderName: undefined,
       CardName: undefined,
-      cardNumber: "200220022002222",
+      cardNumber: '200220022002222',
       cardExpiryDate: undefined,
       balance: 10500,
     },
@@ -58,14 +55,10 @@ export const BuyCryptoPage = ({
   const cardTohandleTouchEnd = () => {
     if (touchStartX.current - touchEndX.current > 150) {
       // Swipe left
-      setCardCurrentIndex((prevIndex) =>
-        prevIndex < cards.length - 1 ? prevIndex + 1 : 0
-      );
+      setCardCurrentIndex((prevIndex) => (prevIndex < cards.length - 1 ? prevIndex + 1 : 0));
     } else if (touchEndX.current - touchStartX.current > 150) {
       // Swipe right
-      setCardCurrentIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : cards.length - 1
-      );
+      setCardCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : cards.length - 1));
     }
   };
   //   slider for currencies handlers
@@ -80,14 +73,10 @@ export const BuyCryptoPage = ({
   const CurTohandleTouchEnd = () => {
     if (touchStartX.current - touchEndX.current > 150) {
       // Swipe left
-      setCurCurrentIndex((prevIndex) =>
-        prevIndex < currencies.length - 1 ? prevIndex + 1 : 0
-      );
+      setCurCurrentIndex((prevIndex) => (prevIndex < currencies.length - 1 ? prevIndex + 1 : 0));
     } else if (touchEndX.current - touchStartX.current > 150) {
       // Swipe right
-      setCurCurrentIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : cards.length - 1
-      );
+      setCurCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : cards.length - 1));
     }
   };
 
@@ -104,9 +93,7 @@ export const BuyCryptoPage = ({
     }
   };
 
-  const currencyInputFieldChange = (
-    event: React.FormEvent<HTMLInputElement>
-  ) => {
+  const currencyInputFieldChange = (event: React.FormEvent<HTMLInputElement>) => {
     const value = (event.target as HTMLInputElement).value;
     const currencyValue = parseFloat(value);
 
@@ -125,26 +112,20 @@ export const BuyCryptoPage = ({
 
   useEffect(() => {
     setIsOk(
-      () =>
-        rubAmmount <= cards[CardcurrentIndex].balance &&
-        rubAmmount > 0 &&
-        cards[CardcurrentIndex].balance > 0
+      () => rubAmmount <= cards[CardcurrentIndex].balance && rubAmmount > 0 && cards[CardcurrentIndex].balance > 0,
     );
   }, [rubAmmount]);
 
   useEffect(() => {
     setIsOk(
-      () =>
-        rubAmmount <= cards[CardcurrentIndex].balance &&
-        rubAmmount > 0 &&
-        cards[CardcurrentIndex].balance > 0
+      () => rubAmmount <= cards[CardcurrentIndex].balance && rubAmmount > 0 && cards[CardcurrentIndex].balance > 0,
     );
   }, [CardcurrentIndex]);
 
   return (
-    <div className={"page " + styles.container}>
+    <div className={'page ' + styles.container}>
       <div className={styles.header}>
-        <button onClick={() => moveTo(spareWaypoint)}>{"<"}</button>
+        <button onClick={() => moveTo(spareWaypoint)}>{'<'}</button>
         Купить криптовалюту
       </div>
       {/* slider for cards */}
@@ -162,19 +143,11 @@ export const BuyCryptoPage = ({
         >
           {cards.map((card) => (
             <div className={styles.cardWrapper}>
-              <h1 className={styles.cardName}>
-                {card.CardName ? card.CardName : "Digital card"}
-              </h1>
-              <h2 className={styles.cardHolder}>
-                {card.cardHolderName ? card.cardHolderName : "CARD HOLDER"}
-              </h2>
+              <h1 className={styles.cardName}>{card.CardName ? card.CardName : 'Digital card'}</h1>
+              <h2 className={styles.cardHolder}>{card.cardHolderName ? card.cardHolderName : 'CARD HOLDER'}</h2>
               <div className={styles.cardBottomInfo}>
-                <p className={styles.cardNumber}>
-                  {"• " + card.cardNumber.slice(-4)}
-                </p>
-                <p className={styles.cardBalance}>
-                  {card.balance.toFixed(2) + " ₽"}
-                </p>
+                <p className={styles.cardNumber}>{'• ' + card.cardNumber.slice(-4)}</p>
+                <p className={styles.cardBalance}>{card.balance.toFixed(2) + ' ₽'}</p>
               </div>
             </div>
           ))}
@@ -182,12 +155,7 @@ export const BuyCryptoPage = ({
       </div>
       {/* input for rub */}
       <div className={styles.inputWrapper}>
-        <input
-          type="number"
-          placeholder="0"
-          value={rubAmmount.toFixed(2)}
-          onChange={rubInputFieldChange}
-        />
+        <input type="number" placeholder="0" value={rubAmmount.toFixed(2)} onChange={rubInputFieldChange} />
       </div>
       {/* slider for currencies */}
       <div
@@ -196,22 +164,15 @@ export const BuyCryptoPage = ({
         onTouchMove={CurTohandleTouchMove}
         onTouchEnd={CurTohandleTouchEnd}
       >
-        <div
-          className={styles.SliderWrapper}
-          style={{ transform: `translateX(-${CurcurrentIndex * 100}%)` }}
-        >
+        <div className={styles.SliderWrapper} style={{ transform: `translateX(-${CurcurrentIndex * 100}%)` }}>
           {currencies.map((currency) => (
-            <div className={styles.cardWrapper + " " + styles.currencyCard}>
+            <div className={styles.cardWrapper + ' ' + styles.currencyCard}>
               <div className={styles.CurrencyInfoWrapper}>
                 <h1 className={styles.cardName}>{currency.currency}</h1>
-                <h2 className={styles.cardHolder}>
-                  {currency.currency === CurrencyEnum.BTC
-                    ? "Bitcoin"
-                    : "Ethereum"}
-                </h2>
+                <h2 className={styles.cardHolder}>{currency.currency === CurrencyEnum.BTC ? 'Bitcoin' : 'Ethereum'}</h2>
               </div>
-              <p className={styles.curCource} style={{ fontSize: "20px" }}>
-                {currency.cource.toFixed(6) + " ₽"}
+              <p className={styles.curCource} style={{ fontSize: '20px' }}>
+                {currency.cource.toFixed(6) + ' ₽'}
               </p>
             </div>
           ))}
@@ -219,16 +180,12 @@ export const BuyCryptoPage = ({
       </div>
       {/* input for ammount */}
       <div className={styles.inputWrapper}>
-        <input
-          type="number"
-          value={currencyAmmount.toFixed(6)}
-          onChange={currencyInputFieldChange}
-        />
+        <input type="number" value={currencyAmmount.toFixed(6)} onChange={currencyInputFieldChange} />
       </div>
       <button
         disabled={!isOk}
-        className={styles.buyBtn + " button "}
-        onClick={() => (isOk ? moveTo(waypoint) : console.log("nope"))}
+        className={styles.buyBtn + ' button '}
+        onClick={() => (isOk ? moveTo(waypoint) : console.log('nope'))}
       >
         Купить
       </button>
