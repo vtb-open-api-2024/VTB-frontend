@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
 
 interface iLogInPage {
   waypoint: string | undefined;
@@ -7,10 +7,7 @@ interface iLogInPage {
   spareWaypoint: string | undefined;
 }
 
-export const LogInPage = ({
-  waypoint = "/",
-  spareWaypoint = "/",
-}: iLogInPage) => {
+export const LogInPage = ({ waypoint = '/', spareWaypoint = '/' }: iLogInPage) => {
   const moveTo = useNavigate();
   const logInFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,7 +16,7 @@ export const LogInPage = ({
   };
 
   return (
-    <div className={"page one-way-page"}>
+    <div className={'page one-way-page'}>
       <div className={styles.container}>
         <h1 className={styles.header}>Log In</h1>
         <form onSubmit={logInFormHandler} className={styles.phoneWrapper}>
@@ -34,11 +31,7 @@ export const LogInPage = ({
             maxLength={10}
             placeholder="...-...-..-.."
           />
-          <button
-            type="submit"
-            onClick={() => moveTo(waypoint)}
-            className={styles.button}
-          >
+          <button type="submit" onClick={() => moveTo(waypoint)} className={styles.button}>
             Send Code
           </button>
           <div

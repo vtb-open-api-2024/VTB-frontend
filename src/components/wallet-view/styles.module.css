@@ -25,11 +25,7 @@
   height: 133px;
   border-radius: 15px;
   padding: 25px;
-  background: linear-gradient(
-    315deg,
-    rgba(1, 59, 155, 0) 0%,
-    rgba(1, 59, 155, 1) 100%
-  );
+  background: linear-gradient(315deg, rgba(1, 59, 155, 0) 0%, rgba(1, 59, 155, 1) 100%);
   margin-bottom: 20px;
 }
 
@@ -52,11 +48,7 @@
 .additionalInfo {
   border-radius: 10px;
   padding: 4px 10px;
-  background: linear-gradient(
-    135deg,
-    rgba(40, 122, 244, 1) 0%,
-    rgba(1, 59, 155, 1) 100%
-  );
+  background: linear-gradient(135deg, rgba(40, 122, 244, 1) 0%, rgba(1, 59, 155, 1) 100%);
   width: fit-content;
 }
 

@@ -1,22 +1,32 @@
+.container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
 .signUpWrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 50%;
   overflow-wrap: nowrap;
+  width: 80vw;
 }
 
 .header {
   text-align: center;
   font-size: 24px;
+  font-weight: 400;
 }
 
 .phoneWrapper {
   display: flex;
   overflow-x: hidden;
-}
-.phoneWrapper span {
-  margin-left: 15%;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .bottomText {
@@ -24,25 +34,25 @@
   text-align: center;
   color: white;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .phoneInput {
-  max-width: fit-content;
-  text-align: center;
-}
-
-.phoneInput,
-.UserNameInput {
+  width: 175px;
   padding: 0;
   background-color: transparent;
   height: 100%;
   margin: 0;
   border: 0;
   font-size: 24px;
+  font-weight: 300;
 }
 
-.phoneInput:focus,
-.UserNameInput:focus {
+.phoneInput::placeholder {
+  color: #ffffff3c;
+}
+
+.phoneInput:focus {
   outline: none;
 }
 
@@ -50,27 +60,13 @@
   border-bottom: white;
 }
 
-.phoneInput::placeholder {
-  color: #ffffff3c;
-}
-
-.phoneWrapper,
-.UserNameInput {
-  max-width: 100%;
-  padding: 10px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.UserNameInput {
+.input_prefix {
   margin: 0;
-  color: white;
-  text-align: center;
+  padding: 0;
 }
 
-.UserNameInput:focus {
-  border-bottom: white;
+.input_prefix_edited {
+  color: white;
 }
 
 .phoneWrapper div {
@@ -81,4 +77,5 @@
 
 .button {
   margin-top: 50%;
+  font-weight: 400;
 }

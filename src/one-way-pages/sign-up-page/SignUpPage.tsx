@@ -1,102 +1,62 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
-import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
+import { useState } from 'react';
 
 interface iSignUpPage {
   waypoint: string | undefined;
   spareWaypoint: string | undefined;
+  signInHandler: (number: string) => void;
 }
 
-export const SignUpPage = ({
-  waypoint = "/",
-  spareWaypoint = "/",
-}: iSignUpPage) => {
+export const SignUpPage = ({ waypoint = '/', signInHandler }: iSignUpPage) => {
   const moveTo = useNavigate();
-  const [number, setNumber] = useState("");
+  const [number, setNumber] = useState('');
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("number: ", number);
-    // Your logic for handling the login form submission goes here
+    console.log('number: ', number);
+    signInHandler('+7 ' + number);
     moveTo(waypoint);
   };
 
   const formatPhoneNumber = (value: string) => {
-    // Remove all non-digit characters
-    const cleaned = value.replace(/\D/g, "");
+    const number = value.replace(/[^0-9]/g, '');
 
-    // If the cleaned number is empty, return an empty string
-    if (cleaned.length === 0) return "";
+    // формат номера (xxx) xxx xx xx
+    const digits = number.replace(/\D/g, '').slice(0, 10);
+    let res = '';
 
-    // Limit to 11 digits
-    const limited = cleaned.substring(0, 11); // Only take the first 11 digits
+    if (digits.length) res = `${digits.slice(0, 3)}`;
+    if (digits.length >= 4) res = `(${res}) ${digits.slice(3, 6)}`;
+    if (digits.length >= 7) res += ` ${digits.slice(6, 8)}`;
+    if (digits.length >= 9) res += ` ${digits.slice(8, 10)}`;
 
-    // If there are digits, ensure the first digit is 8
-    const firstDigit = "8";
-    const remainingDigits = limited.substring(1);
-
-    // Format the cleaned number
-    const areaCode = remainingDigits.substring(0, 3); // Next 3 digits
-    const centralOfficeCode = remainingDigits.substring(3, 6); // Next 3 digits
-    const line1 = remainingDigits.substring(6, 8); // Next 2 digits
-    const line2 = remainingDigits.substring(8, 10); // Last 2 digits
-
-    const formattedNumber = [
-      firstDigit,
-      areaCode ? `(${areaCode})` : "", // Area code in parentheses
-      centralOfficeCode,
-      line1,
-      line2,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .trim(); // Join only non-empty parts
-
-    return formattedNumber.trim();
+    return res;
   };
 
+  function handleInput(event: React.FormEvent<HTMLInputElement>) {
+    const formatted = formatPhoneNumber(event.currentTarget.value);
+    setNumber(formatted);
+  }
+
   return (
-    <div className={"page one-way-page"}>
+    <div className={'page one-way-page'}>
       <div className={styles.container}>
-        <h1 className={styles.header}>Регистрация</h1>
+        <h1 className={styles.header}>Войти в кошелек</h1>
         <form onSubmit={SignUpFormHandler} className={styles.signUpWrapper}>
-          <input
-            type="text"
-            className={styles.UserNameInput}
-            placeholder="UserName"
-            required
-            autoFocus
-          />
-          <br />
           <div className={styles.phoneWrapper}>
+            <span className={`${styles.input_prefix} ${number.length && styles.input_prefix_edited}`}>+7</span>
             <input
-              onChange={(e) => {
-                const inputValue = e.target.value;
-                const formattedNumber = formatPhoneNumber(inputValue);
-                setNumber(formattedNumber);
-              }}
-              id="phone"
-              className={styles.phoneInput}
               type="tel"
-              autoComplete="true"
-              required
-              maxLength={18} // Adjusted for the formatted length
-              placeholder="8 (___) ___ __ __"
+              placeholder=" (___) ___ __ __"
               value={number}
+              onChange={handleInput}
+              className={styles.phoneInput}
             />
           </div>
-          <button type="submit" className={styles.button + " button"}>
+          <button type="submit" className={styles.button + ' button'}>
             Получить код
           </button>
-          <br />
-          <div
-            onClick={() => {
-              moveTo(spareWaypoint);
-            }}
-            className={styles.bottomText}
-          >
-            Войти
-          </div>
         </form>
       </div>
     </div>

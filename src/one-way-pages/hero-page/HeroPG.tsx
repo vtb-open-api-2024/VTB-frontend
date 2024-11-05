@@ -1,5 +1,5 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
 
 interface iHeroPG {
   waypoint: string | undefined;
@@ -7,23 +7,20 @@ interface iHeroPG {
   spareWaypoint: string | undefined;
 }
 
-export const HeroPG = ({ waypoint = "/", spareWaypoint = "/" }: iHeroPG) => {
+export const HeroPG = ({ waypoint = '/', spareWaypoint = '/' }: iHeroPG) => {
   const moveTo = useNavigate();
 
   return (
-    <div className={"page one-way-page hero-page"}>
+    <div className={'page one-way-page hero-page'}>
       <h1 className={styles.header}>
-        <span>Получите</span> доступ к криптовалютам
+        <span>Получите</span> доступ к&nbsp;криптовалютам
       </h1>
       <p className={styles.paragraph}>
-        Перемещайте BTC, ETH, USDT и более 30 других токенов между вашим
-        кошельком и <span>ВТБ</span>
+        Перемещайте BTC, ETH, USDT и более 30 других токенов между вашим кошельком и <span>ВТБ</span>
       </p>
-      <button
-        onClick={() => moveTo(waypoint)}
-        className={"button " + styles.herobutton}
-      >
+      <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
         Создать кошелек
+        <span className={styles.herobutton_span}>Или войти в существующий</span>
       </button>
       <div
         onClick={() => {
@@ -31,7 +28,7 @@ export const HeroPG = ({ waypoint = "/", spareWaypoint = "/" }: iHeroPG) => {
         }}
         className={styles.bottomText}
       >
-        Добавить кошелек
+        Привязать кошелек
       </div>
     </div>
   );

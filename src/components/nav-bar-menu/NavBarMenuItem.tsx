@@ -1,4 +1,5 @@
-import styles from "./styles.module.css";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
 
 interface iNavBarMenuItem {
   icon: string;
@@ -6,17 +7,15 @@ interface iNavBarMenuItem {
   waypoint: string;
 }
 
-export const NavBarMenuItemCMP = ({
-  icon,
-  label,
-  waypoint,
-}: iNavBarMenuItem) => {
+export const NavBarMenuItemCMP = ({ icon, label, waypoint }: iNavBarMenuItem) => {
+  const moveTo = useNavigate();
+
   return (
-    <a href={waypoint} className={styles.navBtnContainer}>
+    <button onClick={() => moveTo(waypoint)} className={styles.navBtnContainer}>
       <div className={styles.iconContainer}>
         <img src={icon} />
       </div>
       <p className={styles.NavBtnLabel}>{label}</p>
-    </a>
+    </button>
   );
 };

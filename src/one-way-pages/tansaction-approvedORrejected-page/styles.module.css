@@ -24,11 +24,7 @@
   position: fixed;
   bottom: 40px;
   background: rgb(0, 51, 136);
-  background: linear-gradient(
-    40deg,
-    rgba(0, 51, 136, 1) 0%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  background: linear-gradient(40deg, rgba(0, 51, 136, 1) 0%, rgba(0, 0, 0, 1) 100%);
 }
 
 .herobutton:active {
@@ -75,18 +71,10 @@
 
 .transactionPage {
   background: rgb(1, 59, 155);
-  background: linear-gradient(
-    180deg,
-    rgba(1, 59, 155, 1) 0%,
-    rgba(0, 96, 255, 1) 100%
-  );
+  background: linear-gradient(180deg, rgba(1, 59, 155, 1) 0%, rgba(0, 96, 255, 1) 100%);
 }
 
 .transactionRejected {
   background: rgb(0, 96, 255);
-  background: linear-gradient(
-    0deg,
-    rgba(0, 96, 255, 1) 0%,
-    rgba(115, 6, 6, 1) 100%
-  );
+  background: linear-gradient(0deg, rgba(0, 96, 255, 1) 0%, rgba(115, 6, 6, 1) 100%);
 }

@@ -1,17 +1,17 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./styles.module.css";
-import { useEffect, useState } from "react";
-import { CancelIcon } from "../../components/icons/cancel";
+import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.css';
+import { useEffect, useState } from 'react';
+import { CancelIcon } from '../../components/icons/cancel';
 
 interface iCreatePswPage {
   waypoint?: string;
   spareWaypoint?: string;
 }
 
-export const CreatePswPage = ({ waypoint = "/" }: iCreatePswPage) => {
-  const [pwd, setPwd] = useState("");
-  const [currentInput, setCurrentInput] = useState("");
-  const [message, setMessage] = useState("Придумайте пароль");
+export const CreatePswPage = ({ waypoint = '/' }: iCreatePswPage) => {
+  const [pwd, setPwd] = useState('');
+  const [currentInput, setCurrentInput] = useState('');
+  const [message, setMessage] = useState('Придумайте пароль');
   const moveTo = useNavigate();
 
   const handleDelete = () => {
@@ -25,15 +25,15 @@ export const CreatePswPage = ({ waypoint = "/" }: iCreatePswPage) => {
 
     if (pwd.length === 0) {
       setPwd(currentInput);
-      setMessage("Введите пароль еще раз");
-      setCurrentInput("");
+      setMessage('Введите пароль еще раз');
+      setCurrentInput('');
     } else {
       if (pwd !== currentInput) {
-        setMessage("Пароли не совпадают. Попробуйте еще раз");
-        setCurrentInput("");
+        setMessage('Пароли не совпадают. Попробуйте еще раз');
+        setCurrentInput('');
         return;
       } else {
-        localStorage.setItem("password", pwd);
+        localStorage.setItem('password', pwd);
         moveTo(waypoint);
       }
     }
@@ -46,23 +46,22 @@ export const CreatePswPage = ({ waypoint = "/" }: iCreatePswPage) => {
   };
 
   useEffect(() => {
-    console.log("currentInput: ", currentInput);
+    console.log('currentInput: ', currentInput);
     if (currentInput.length === 4) {
       handleSubmit();
     }
   }, [currentInput]);
 
   return (
-    <div className={"page one-way-page"}>
+    <div className={'page one-way-page'}>
       <div className={styles.container}>
-        <h1 className={styles.header}>Регистрация</h1>
         <div className={styles.numpadWrapper}>
           <h2 className={styles.optionView}>{message}</h2>
           {/* Password squares */}
           <div className={styles.passwordSquares}>
             {[0, 1, 2, 3].map((index) => (
               <div key={index} className={styles.passwordSquare}>
-                {currentInput[index] ? "•" : ""}
+                {currentInput[index] ? '•' : ''}
               </div>
             ))}
           </div>
@@ -70,26 +69,14 @@ export const CreatePswPage = ({ waypoint = "/" }: iCreatePswPage) => {
           {/* Numpad */}
           <div className={styles.numpad}>
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => (
-              <button
-                key={number}
-                className={styles.numpadButton}
-                onClick={() => handleNumberClick(number)}
-              >
+              <button key={number} className={styles.numpadButton} onClick={() => handleNumberClick(number)}>
                 {number}
               </button>
             ))}
-            <button
-              className={styles.numpadButton}
-              style={{ border: "none" }}
-              onClick={handleDelete}
-            >
+            <button className={styles.numpadButton} style={{ border: 'none' }} onClick={handleDelete}>
               <CancelIcon />
             </button>
-            <button
-              key={0}
-              className={styles.numpadButton}
-              onClick={() => handleNumberClick(0)}
-            >
+            <button key={0} className={styles.numpadButton} onClick={() => handleNumberClick(0)}>
               {0}
             </button>
           </div>
@@ -97,10 +84,10 @@ export const CreatePswPage = ({ waypoint = "/" }: iCreatePswPage) => {
           <div
             className={styles.bottomText}
             onClick={() => {
-              setMessage("Придумайте пароль");
-              setPwd(() => "");
-              setCurrentInput(() => "");
-              console.log("retried");
+              setMessage('Придумайте пароль');
+              setPwd(() => '');
+              setCurrentInput(() => '');
+              console.log('retried');
             }}
           >
             Retry
