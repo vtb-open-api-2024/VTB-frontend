@@ -5,13 +5,15 @@ import { HistoryElement } from './history-element/HistoryElement';
 export const History = () => {
   const [history, setHistory] = useState([]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setHistory([])
+  }, []);
 
   return (
     <div className={styles.container}>
       <h1 className={styles.header}>История транзакций</h1>
       <ul className={styles.history_dates}>
-        {history.map((date, index) => (
+        {history.map((_date, _index) => (
           <HistoryElement />
         ))}
       </ul>
