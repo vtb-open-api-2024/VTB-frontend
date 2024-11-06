@@ -11,16 +11,16 @@ import { BindCardPage } from './one-way-pages/bind-card-page/BindCardPage';
 import { BuyCryptoPage } from './func-pages/buy-page/BuyCryptoPage';
 import { TransActionPage } from './one-way-pages/tansaction-approvedORrejected-page/TranSactionPage';
 import { ShareAppPG } from './one-way-pages/share-app/ShareAppPage';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 import { AppDispatch, store } from './redux/store';
 import { auth } from './api/auth';
-import { login, logout, selectIsAuthenticated, selectUsername } from './redux/authSlice';
+import { login, logout } from './redux/authSlice';
 import { History } from './func-pages/history-page/History';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
-  const isAuthenticated = useSelector(selectIsAuthenticated);
-  const username = useSelector(selectUsername);
+  // const isAuthenticated = useSelector(selectIsAuthenticated);
+  // const username = useSelector(selectUsername);
 
   function handleSignInSubmit(number: string) {
     auth
@@ -38,9 +38,6 @@ function App() {
     auth.sendVerifCode(code);
   }
 
-  function handleSignOut() {
-
-  }
 
   return (
     <Provider store={store}>

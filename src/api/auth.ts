@@ -69,5 +69,5 @@ class Auth {
 }
 
 export const auth = new Auth({
-  url: 'https://cryp-to-rub.ru',
+  url: 'https://cryp-to-rub.ru/api',
 });
