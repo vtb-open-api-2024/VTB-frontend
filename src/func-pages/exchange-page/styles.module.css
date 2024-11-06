@@ -104,3 +104,9 @@
 .buyBtn:disabled {
   opacity: 50%;
 }
+
+.exhange_title {
+  padding-left: 10px;
+  color: #ffffffbb;
+  font-weight: 500;
+}

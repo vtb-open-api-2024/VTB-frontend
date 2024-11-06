@@ -1,6 +1,9 @@
 type Phone = { phone: string };
 
-type SignupData = Phone & { name: string };
+type Tokens = {
+  accessToken: string,
+  refreshToken: string
+}
 
 class Auth {
   private _baseUrl: string;
@@ -22,20 +25,6 @@ class Auth {
     );
   }
 
-  signup({ phone, name }: SignupData) {
-    return fetch(`${this._baseUrl}/signup`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phone: phone,
-        name: name,
-      }),
-    }).then(this._checkResponse);
-  }
-
   getVerifCode({ phone }: Phone) {
     const formData = new FormData();
     formData.append('phone', phone);
@@ -51,7 +40,7 @@ class Auth {
     }).then(this._checkResponse);
   }
 
-  sendVerifCode(code: string) {
+  sendVerifCode(code: string): Promise<Tokens> {
     const myHeaders = new Headers();
     myHeaders.append('accept', '*/*');
 
@@ -66,6 +55,13 @@ class Auth {
     }).then(this._checkResponse);
   }
 
+  refreshToken() {
+    return fetch(`${this._baseUrl}/auth/refresh-token`, {
+      method: 'GET',
+      redirect: 'follow',
+    }).then(this._checkResponse);
+    // TODO: if refresh succeed, set localstorage Tokens, else clear localstorage
+  }
 }
 
 export const auth = new Auth({

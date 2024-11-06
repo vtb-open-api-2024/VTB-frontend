@@ -4,8 +4,13 @@ import { NavBarMenuCMP } from '../../components/nav-bar-menu/NavBarMenu';
 import { WalletWiewCMP } from '../../components/wallet-view/WalletView';
 import styles from './styles.module.css';
 import { PopUpCMP } from '../../components/pop-up/PopUp';
+import { Wallet } from '../../types';
 
-export const MainPage = () => {
+interface iMainPage {
+  wallets: Wallet[]
+}
+
+export const MainPage = ({wallets}: iMainPage) => {
   const [isCardBindPopUpOpen, setIsCBPopUpOpen] = useState(false);
   const [isFriendInvitePopUpOpen, setIsFIPopUpOpen] = useState(false);
 
@@ -84,7 +89,7 @@ export const MainPage = () => {
   return (
     <div className={styles.container + ' ' + 'page'}>
       <HeaderCMP />
-      <WalletWiewCMP />
+      <WalletWiewCMP wallets={wallets} />
       <div className={styles.navBarWrapper}>
         <NavBarMenuCMP />
       </div>
