@@ -1,0 +1,36 @@
+.header {
+  padding: 0px 20px;
+  margin-bottom: 0px;
+}
+
+.header span {
+  color: #02a4f5;
+}
+
+.qrCode {
+  padding: 10px 30px;
+}
+.paragraph {
+  padding: 0px 20px;
+  margin: 0;
+  margin-bottom: 50px;
+}
+
+.paragraph span {
+  color: #02a4f5;
+}
+
+.herobutton {
+  margin-bottom: 20px;
+  position: fixed;
+  bottom: 10px;
+}
+
+.herobutton:active {
+  background: linear-gradient(135deg, #96c0ff 0%, #005fff 100%);
+}
+
+.bottomText {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}

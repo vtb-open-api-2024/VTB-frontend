@@ -1,0 +1,44 @@
+.header {
+  padding: 0px 20px;
+  margin-top: 40vh;
+  margin-bottom: 20px;
+}
+
+.header span {
+  color: #02a4f5;
+}
+
+.paragraph {
+  padding: 0px 20px;
+  margin: 0;
+  margin-bottom: 50px;
+}
+
+.paragraph span {
+  color: #02a4f5;
+}
+
+.herobutton {
+  margin-bottom: 20px;
+}
+
+.herobutton:active {
+  background: linear-gradient(135deg, #96c0ff 0%, #005fff 100%);
+}
+
+.bottomText {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.herobutton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.herobutton_span {
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 5px;
+}
