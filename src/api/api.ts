@@ -1,5 +1,5 @@
-import { Wallet } from "../types";
-import { auth } from "./auth";
+import { Wallet } from '../types';
+import { auth } from './auth';
 
 class Request {
   private _baseUrl: string;
@@ -16,7 +16,7 @@ class Request {
     return Promise.reject(res).then(
       () => {},
       (err) => {
-        if (err.code === 401) auth.refreshToken()
+        if (err.code === 401) auth.refreshToken();
         throw err.json();
       },
     );
@@ -27,28 +27,28 @@ class Request {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': this._token()
+        Authorization: this._token(),
       },
     }).then(this._checkResponse);
   }
 
   postWallet(): Promise<Wallet> {
     const formdata = new FormData();
-    const walletName = 'Wallet ' + (new Date()).toLocaleTimeString()
+    const walletName = 'Wallet ' + new Date().toLocaleTimeString();
     formdata.append('title', walletName);
 
     return fetch(`${this._baseUrl}/portfolio`, {
       method: 'POST',
       headers: {
-        'Authorization': this._token(),
-        'Content-Type': 'multipart/form-data'
+        Authorization: this._token(),
+        'Content-Type': 'multipart/form-data',
       },
       body: formdata,
-    }).then(this._checkResponse)
+    }).then(this._checkResponse);
   }
 
   _token(): string {
-    return 'Bearer ' + JSON.parse(localStorage.getItem('tokens') ?? '')
+    return 'Bearer ' + JSON.parse(localStorage.getItem('tokens') ?? '');
   }
 }
 

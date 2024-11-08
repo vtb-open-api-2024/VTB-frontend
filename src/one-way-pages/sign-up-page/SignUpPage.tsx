@@ -11,6 +11,8 @@ export const SignUpPage = ({ signInHandler, error }: iSignUpPage) => {
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(number.length);
+
     signInHandler('+7 ' + number);
   };
 
@@ -49,7 +51,7 @@ export const SignUpPage = ({ signInHandler, error }: iSignUpPage) => {
               className={styles.phoneInput}
             />
           </div>
-          <button type="submit" className={styles.button + ' button'}>
+          <button type="submit" className={styles.button + ' button'} disabled={number.length !== 15}>
             Получить код
           </button>
           {error ? (

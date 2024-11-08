@@ -2,32 +2,15 @@ import { useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { BTCIcon } from '../icons/cryptocurency';
 import { Wallet } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 
-interface iWalletWiewCMP {
-  wallets: Wallet[]
-}
+interface iWalletWiewCMP {}
 
-export const WalletWiewCMP = ({wallets}: iWalletWiewCMP) => {
-  // const wallets = [
-  //   {
-  //     id: 'dummy',
-  //     name: 'VTB Wallet 1',
-  //     currensies: [
-  //       { currency: 'rub', course: 1, ammount: 100 },
-  //       { currency: 'btc', course: 1000000, ammount: 0.45 },
-  //       { currency: 'etc', course: 10000, ammount: 4.05 },
-  //     ],
-  //   },
-  //   {
-  //     id: 'dummy2',
-  //     name: 'VTB Wallet 2',
-  //     currensies: [
-  //       { currency: 'rub', course: 1, ammount: 100 },
-  //       { currency: 'btc', course: 1000000, ammount: 0.45 },
-  //       { currency: 'etc', course: 10000, ammount: 4.05 },
-  //     ],
-  //   },
-  // ];
+export const WalletWiewCMP = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const wallets = useSelector((state: RootState) => state.wallets.wallets);
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);

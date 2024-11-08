@@ -110,3 +110,17 @@
   color: #ffffffbb;
   font-weight: 500;
 }
+
+.exhange_title_wallet {
+  padding-left: 10px;
+  color: #fff;
+  font-weight: 500;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 16px;
+}
+
+.exhange_title_wallet:active {
+  background: none;
+}

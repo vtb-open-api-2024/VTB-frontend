@@ -80,6 +80,14 @@
   font-weight: 400;
 }
 
+.button:disabled {
+  opacity: 0.7;
+}
+
+.button:disabled:active {
+  background: linear-gradient(135deg, rgba(40, 122, 244, 1) 0%, rgba(1, 59, 155, 1) 100%);
+}
+
 .labelSubmit {
   margin-top: 10px;
   font-size: 16px;

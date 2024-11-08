@@ -4,7 +4,7 @@ export type Wallet = {
   currensies: CurrenciesItem[];
 };
 
-export type CurrenciesItem = { currency: Currency; ammount: number }
+export type CurrenciesItem = { currency: Currency; ammount: number };
 
 export type Currency = {
   currency: CurrencyEnum;

@@ -1,9 +1,9 @@
 type Phone = { phone: string };
 
 type Tokens = {
-  accessToken: string,
-  refreshToken: string
-}
+  accessToken: string;
+  refreshToken: string;
+};
 
 class Auth {
   private _baseUrl: string;

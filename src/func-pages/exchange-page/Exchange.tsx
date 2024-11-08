@@ -3,18 +3,29 @@ import styles from './styles.module.css';
 import { Card, Currency, CurrencyEnum } from '../../types';
 import { useEffect, useRef, useState } from 'react';
 import { ChooseWallet } from './choose-wallet/ChooseWallet';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { toggleChooseWallet } from '../../redux/walletsSlice';
 
 interface iExchangePage {
   waypoint?: string;
   spareWaypoint?: string;
+  confirmExchange: () => void;
 }
 
-export const ExchangePage = ({ waypoint = '/', spareWaypoint = '/' }: iExchangePage) => {
+export const ExchangePage = ({ confirmExchange, spareWaypoint = '/home' }: iExchangePage) => {
   const moveTo = useNavigate();
+
+  const dispatch = useDispatch<AppDispatch>();
+  const wallets = useSelector((state: RootState) => state.wallets.wallets);
+  const choosenWallet = useSelector((state: RootState) => state.wallets.choosenWallet);
+  const chooseWalletOpened = useSelector((state: RootState) => state.wallets.chooseWalletOpened);
+
   const [CardcurrentIndex, setCardCurrentIndex] = useState(0);
   const [CurcurrentIndex, setCurCurrentIndex] = useState(0);
   const [currencyAmmount, setCurrencyAmmount] = useState(0);
   const [rubAmmount, setRubAmount] = useState(0);
+
   const [isOk, setIsOk] = useState(false);
 
   const touchStartX = useRef(0);
@@ -123,15 +134,24 @@ export const ExchangePage = ({ waypoint = '/', spareWaypoint = '/' }: iExchangeP
     );
   }, [CardcurrentIndex]);
 
+  function openChooseWallet() {
+    dispatch(toggleChooseWallet(true));
+  }
+
   return (
     <div className={'page ' + styles.container}>
       <div className={styles.header}>
         <button onClick={() => moveTo(spareWaypoint)}>{'<'}</button>
         Обмен
       </div>
-      {/* <ChooseWallet wallets={} choosenWallet={} onWalletChange={} /> */}
+      {chooseWalletOpened && <ChooseWallet />}
       {/* slider for curr to exchange */}
-      <div className={styles.exhange_title}>Вы отдаете: {}</div>
+      <div>
+        <button className={styles.exhange_title_wallet} onClick={openChooseWallet}>
+          {choosenWallet.name} V
+        </button>
+      </div>
+      <div className={styles.exhange_title}>Вы отдаете: </div>
       <div
         className={styles.Slider}
         onTouchStart={cardTohandleTouchStart}
@@ -144,14 +164,16 @@ export const ExchangePage = ({ waypoint = '/', spareWaypoint = '/' }: iExchangeP
           style={{ transform: `translateX(-${CardcurrentIndex * 100}%)` }}
           draggable="false"
         >
-          {currencies.map((currency) => (
+          {choosenWallet.currensies.map((currency, _id) => (
             <div className={styles.cardWrapper + ' ' + styles.currencyCard}>
               <div className={styles.CurrencyInfoWrapper}>
-                <h1 className={styles.cardName}>{currency.currency}</h1>
-                <h2 className={styles.cardHolder}>{currency.currency === CurrencyEnum.BTC ? 'Bitcoin' : 'Ethereum'}</h2>
+                <h1 className={styles.cardName}>{currency.currency.currency}</h1>
+                <h2 className={styles.cardHolder}>
+                  {currency.currency.currency === CurrencyEnum.BTC ? 'Bitcoin' : 'Ethereum'}
+                </h2>
               </div>
               <p className={styles.curCource} style={{ fontSize: '20px' }}>
-                {currency.cource.toFixed(6) + ' ₽'}
+                {currency.currency.cource.toFixed(6) + ' ₽'}
               </p>
             </div>
           ))}
@@ -187,11 +209,7 @@ export const ExchangePage = ({ waypoint = '/', spareWaypoint = '/' }: iExchangeP
       <div className={styles.inputWrapper}>
         <input type="number" value={currencyAmmount.toFixed(6)} onChange={currencyInputFieldChange} />
       </div>
-      <button
-        disabled={!isOk}
-        className={styles.buyBtn + ' button '}
-        onClick={() => (isOk ? moveTo(waypoint) : console.log('nope'))}
-      >
+      <button disabled={!isOk} className={styles.buyBtn + ' button '} onClick={() => isOk && confirmExchange}>
         Купить
       </button>
     </div>
