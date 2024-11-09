@@ -7,10 +7,16 @@ interface iPopUp {
   desc?: string;
   img?: string;
   closePopup: (newState: boolean) => void;
+  handleBindCard: () => void
 }
 
-export const PopUpCMP = ({ msg = 'msg', waypoint, desc = 'desc', img, closePopup }: iPopUp) => {
+export const PopUpCMP = ({ msg = 'msg', desc = 'desc', img, closePopup, handleBindCard }: iPopUp) => {
   const moveTo = useNavigate();
+
+  function bindCardHandler() {
+    handleBindCard()
+  }
+
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>{msg}</h2>
@@ -18,9 +24,7 @@ export const PopUpCMP = ({ msg = 'msg', waypoint, desc = 'desc', img, closePopup
       <p className={styles.description}>{desc}</p>
       <button
         className={'button'}
-        onClick={() => {
-          moveTo(waypoint);
-        }}
+        onClick={bindCardHandler}
       >
         Продолжить
       </button>

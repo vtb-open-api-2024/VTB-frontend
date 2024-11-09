@@ -1,37 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CurrencyEnum, Wallet } from '../types';
+import { Card, CurrencyEnum, Wallet } from '../types';
+import { cards, firstWallet } from '../mockData';
 
-const firstWallet: Wallet = {
-  id: '0',
-  name: 'Mock Wallet',
-  currensies: [
-    {
-      currency: {
-        currency: CurrencyEnum.BTC,
-        cource: 100,
-      },
-      ammount: 100,
-    },
-    {
-      currency: {
-        currency: CurrencyEnum.ETC,
-        cource: 100,
-      },
-      ammount: 0.45,
-    },
-  ],
-};
 
 interface WalletsState {
   wallets: Wallet[];
   choosenWallet: Wallet;
   chooseWalletOpened: boolean;
+
+  cards: Card[]
 }
 
 const initialState: WalletsState = {
   wallets: [firstWallet] as Wallet[], // portfolios
   choosenWallet: firstWallet,
   chooseWalletOpened: false,
+  cards: cards
 };
 
 const walletsSlice = createSlice({
