@@ -56,7 +56,7 @@ export const SignUpPage = ({ signInHandler }: iSignUpPage) => {
             Получить код
           </button>
           {signInError ? (
-            <span className={`${styles.labelSubmit} ${signInError ? styles.errorClass : ''}`}>Ошибка отправки СМС</span>
+            <span className={`${styles.labelSubmit} ${signInError ? styles.errorClass : ''}`}>Не удалось дозвониться</span>
           ) : (
             ''
           )}

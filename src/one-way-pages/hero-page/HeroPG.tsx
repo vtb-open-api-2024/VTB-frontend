@@ -17,7 +17,8 @@ export const HeroPG = ({ waypoint = '/' }: iHeroPG) => {
         <span>Получите</span> доступ к&nbsp;криптовалютам
       </h1>
       <p className={styles.paragraph}>
-        Перемещайте BTC, ETH, USDT и более 30 других токенов между вашим кошельком и <span>ВТБ</span>
+      Перемещайте BTC, ETH, USDT 
+      и другие токены между вашим кошельком и <span>ВТБ</span>
       </p>
       <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
         Создать кошелек
