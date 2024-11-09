@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
+import walletsReducer from './walletsSlice';
+import popUpReduser from './popUpSlice';
 
 export const store = configureStore({
   reducer: {
@@ -7,6 +9,8 @@ export const store = configureStore({
     // teamMembers: TeamSlice.reducer,
     // cart: CartSlice.reducer,
     auth: authReducer,
+    wallets: walletsReducer,
+    popup: popUpReduser,
   },
 });
 

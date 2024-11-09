@@ -6,7 +6,7 @@ export const History = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    setHistory([])
+    setHistory([]);
   }, []);
 
   return (

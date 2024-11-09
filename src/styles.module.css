@@ -1,0 +1,56 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  min-height: 100%;
+}
+
+.container img {
+  width: 50%;
+}
+
+.container button {
+  width: 100%;
+}
+
+.container p {
+  margin-bottom: auto;
+}
+
+.bottomText {
+  margin-top: 20px;
+  justify-self: flex-end;
+}
+.container {
+  overflow: hidden;
+}
+
+.navBarWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popUp {
+  width: 100%;
+  height: 65%;
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  transition: all 0.7s ease-in-out;
+  padding: 30px 30px;
+  position: fixed;
+  bottom: -45px;
+  z-index: 100;
+}
+
+.popUpHidden {
+  transform: translateY(+110%);
+}
+
+.popUpVisible {
+  transform: translateY(0);
+}

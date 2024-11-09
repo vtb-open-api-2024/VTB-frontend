@@ -1,56 +1,68 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { CancelIcon } from '../../components/icons/cancel';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { confirmPassword, createPassword, resetPassword } from '../../redux/authSlice';
 
-interface iCreatePswPage {
+interface iPswPage {
   waypoint?: string;
   spareWaypoint?: string;
+  handleCreatePassword: () => void;
 }
 
-export const CreatePswPage = ({ waypoint = '/' }: iCreatePswPage) => {
-  const [pwd, setPwd] = useState('');
-  const [currentInput, setCurrentInput] = useState('');
+export const CreatePswPage = ({ handleCreatePassword }: iPswPage) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const passwordCreated = useSelector((state: RootState) => state.auth.passwordCreated);
+  const passwordConfirmed = useSelector((state: RootState) => state.auth.passwordConfirmed);
+
+  const [passwordInput, setPasswordInput] = useState('');
   const [message, setMessage] = useState('Придумайте пароль');
-  const moveTo = useNavigate();
 
   const handleDelete = () => {
-    setCurrentInput((prev) => prev.slice(0, -1));
+    setPasswordInput((prev) => prev.slice(0, -1));
   };
 
   const handleSubmit = () => {
-    if (currentInput.length !== 4) {
-      return;
+    // if password wasnt created, set it
+    if (!passwordCreated) {
+      dispatch(createPassword(passwordInput));
+      setMessage('Подтвердите пароль');
+      setPasswordInput('');
     }
-
-    if (pwd.length === 0) {
-      setPwd(currentInput);
-      setMessage('Введите пароль еще раз');
-      setCurrentInput('');
-    } else {
-      if (pwd !== currentInput) {
-        setMessage('Пароли не совпадают. Попробуйте еще раз');
-        setCurrentInput('');
-        return;
-      } else {
-        localStorage.setItem('password', pwd);
-        moveTo(waypoint);
-      }
-    }
-  };
-
-  const handleNumberClick = (number: number) => {
-    if (currentInput.length < 4) {
-      setCurrentInput((prev) => prev + number);
+    // if password was created, try to confirm it
+    // dispatch is asynchronous so we need useEffect to do something in its creation
+    else {
+      dispatch(confirmPassword(passwordInput));
     }
   };
 
   useEffect(() => {
-    console.log('currentInput: ', currentInput);
-    if (currentInput.length === 4) {
+    if (passwordConfirmed) {
+      handleCreatePassword();
+    } else if (passwordConfirmed !== null) {
+      setMessage('Неправильный пароль!');
+      setPasswordInput('');
+    }
+  }, [passwordConfirmed]);
+
+  const handleNumberClick = (number: number) => {
+    if (passwordInput.length < 4) {
+      setPasswordInput((prev) => prev + number);
+    }
+  };
+
+  useEffect(() => {
+    if (passwordInput.length === 4) {
       handleSubmit();
     }
-  }, [currentInput]);
+  }, [passwordInput]);
+
+  function handleForgotPassword() {
+    setMessage('Придумайте пароль');
+    setPasswordInput(() => '');
+    dispatch(resetPassword());
+  }
 
   return (
     <div className={'page one-way-page'}>
@@ -61,7 +73,7 @@ export const CreatePswPage = ({ waypoint = '/' }: iCreatePswPage) => {
           <div className={styles.passwordSquares}>
             {[0, 1, 2, 3].map((index) => (
               <div key={index} className={styles.passwordSquare}>
-                {currentInput[index] ? '•' : ''}
+                {passwordInput[index] ? '•' : ''}
               </div>
             ))}
           </div>
@@ -81,15 +93,7 @@ export const CreatePswPage = ({ waypoint = '/' }: iCreatePswPage) => {
             </button>
           </div>
 
-          <div
-            className={styles.bottomText}
-            onClick={() => {
-              setMessage('Придумайте пароль');
-              setPwd(() => '');
-              setCurrentInput(() => '');
-              console.log('retried');
-            }}
-          >
+          <div className={styles.bottomText} onClick={handleForgotPassword}>
             Retry
           </div>
         </div>

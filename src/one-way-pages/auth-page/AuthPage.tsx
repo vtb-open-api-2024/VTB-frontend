@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { CancelIcon } from '../../components/icons/cancel';
@@ -6,18 +5,16 @@ import { CancelIcon } from '../../components/icons/cancel';
 interface iAuthPage {
   waypoint?: string;
   spareWaypoint?: string;
+  error?: boolean;
   authHandler: (code: string) => void;
 }
 
-export const AuthPage = ({ waypoint = '/', authHandler }: iAuthPage) => {
-  const moveTo = useNavigate();
+export const AuthPage = ({ authHandler, error }: iAuthPage) => {
   const [currentInput, setCurrentInput] = useState('');
   const timer = 30;
 
   const checkCode = (input: string) => {
-    console.log('input', input);
     authHandler(input);
-    moveTo(waypoint);
   };
 
   const handleDelete = () => {
@@ -45,7 +42,7 @@ export const AuthPage = ({ waypoint = '/', authHandler }: iAuthPage) => {
         {/* Password squares */}
         <div className={styles.passwordSquares}>
           {[0, 1, 2, 3].map((index) => (
-            <div key={index} className={styles.passwordSquare}>
+            <div key={index} className={`${styles.passwordSquare} ${error ? styles.errorClass : ''}`}>
               {currentInput[index] ? '•' : ''}
             </div>
           ))}

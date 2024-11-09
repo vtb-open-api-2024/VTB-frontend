@@ -1,22 +1,20 @@
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 import styles from './styles.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface iSignUpPage {
-  waypoint: string | undefined;
-  spareWaypoint: string | undefined;
   signInHandler: (number: string) => void;
 }
 
-export const SignUpPage = ({ waypoint = '/', signInHandler }: iSignUpPage) => {
-  const moveTo = useNavigate();
+export const SignUpPage = ({ signInHandler }: iSignUpPage) => {
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const signInError = useSelector((state: RootState) => state.auth.signInError);
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('number: ', number);
     signInHandler('+7 ' + number);
-    moveTo(waypoint);
   };
 
   const formatPhoneNumber = (value: string) => {
@@ -54,9 +52,14 @@ export const SignUpPage = ({ waypoint = '/', signInHandler }: iSignUpPage) => {
               className={styles.phoneInput}
             />
           </div>
-          <button type="submit" className={styles.button + ' button'}>
+          <button type="submit" className={styles.button + ' button'} disabled={number.length !== 15}>
             Получить код
           </button>
+          {signInError ? (
+            <span className={`${styles.labelSubmit} ${signInError ? styles.errorClass : ''}`}>Ошибка отправки СМС</span>
+          ) : (
+            ''
+          )}
         </form>
       </div>
     </div>
