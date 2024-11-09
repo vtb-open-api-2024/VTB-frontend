@@ -7,28 +7,30 @@ interface iHeroPG {
   spareWaypoint: string | undefined;
 }
 
-export const HeroPG = ({ waypoint = '/', spareWaypoint = '/' }: iHeroPG) => {
+export const HeroPG = ({ waypoint = '/' }: iHeroPG) => {
   const moveTo = useNavigate();
 
   return (
-    <div className={'page one-way-page hero-page'}>
+    <div className={` hero-page`}>
+      <div className={`page one-way-page ${styles.hero_page_bg}`}>
       <h1 className={styles.header}>
         <span>Получите</span> доступ к&nbsp;криптовалютам
       </h1>
       <p className={styles.paragraph}>
-        Перемещайте BTC, ETH, USDT и более 30 других токенов между вашим кошельком и <span>ВТБ</span>
+      Перемещайте BTC, ETH, USDT 
+      и другие токены между вашим кошельком и <span>ВТБ</span>
       </p>
       <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
         Создать кошелек
-        <span className={styles.herobutton_span}>Или войти в существующий</span>
       </button>
       <div
         onClick={() => {
-          moveTo(spareWaypoint);
+          moveTo(waypoint);
         }}
         className={styles.bottomText}
       >
-        Привязать кошелек
+        Есть кошелек? Войти
+      </div>
       </div>
     </div>
   );
