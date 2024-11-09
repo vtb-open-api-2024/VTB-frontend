@@ -1,18 +1,19 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 import styles from './styles.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface iSignUpPage {
-  error: boolean;
   signInHandler: (number: string) => void;
 }
 
-export const SignUpPage = ({ signInHandler, error }: iSignUpPage) => {
+export const SignUpPage = ({ signInHandler }: iSignUpPage) => {
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch<AppDispatch>();
+  const signInError = useSelector((state: RootState) => state.auth.signInError);
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(number.length);
-
     signInHandler('+7 ' + number);
   };
 
@@ -54,8 +55,8 @@ export const SignUpPage = ({ signInHandler, error }: iSignUpPage) => {
           <button type="submit" className={styles.button + ' button'} disabled={number.length !== 15}>
             Получить код
           </button>
-          {error ? (
-            <span className={`${styles.labelSubmit} ${error ? styles.errorClass : ''}`}>Ошибка отправки СМС</span>
+          {signInError ? (
+            <span className={`${styles.labelSubmit} ${signInError ? styles.errorClass : ''}`}>Ошибка отправки СМС</span>
           ) : (
             ''
           )}

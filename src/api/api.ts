@@ -1,11 +1,15 @@
+import { Tokens } from '../redux/authSlice';
 import { Wallet } from '../types';
 import { auth } from './auth';
 
 class Request {
   private _baseUrl: string;
+  private tokens: Tokens | null;
 
   constructor({ url }: { url: string }) {
     this._baseUrl = url;
+    const tokensExist = localStorage.getItem('tokens')
+    this.tokens = tokensExist ? JSON.parse(tokensExist) : null
   }
 
   _checkResponse(res: any) {
@@ -13,20 +17,22 @@ class Request {
       return res.json();
     }
 
+    // if (res.code === 401) return Promise.
+
     return Promise.reject(res).then(
       () => {},
       (err) => {
-        if (err.code === 401) auth.refreshToken();
         throw err.json();
       },
     );
   }
 
-  getWallets(portfolioId: number) {
-    return fetch(`${this._baseUrl}/portfolio?portfolioId=${portfolioId}`, {
+  getWallets(portfolioId?: number) {
+    const portflioUrlSuffix = portfolioId ? `?portfolioId=${portfolioId}` : ''
+
+    return fetch(`${this._baseUrl}/portfolio${portflioUrlSuffix}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
         Authorization: this._token(),
       },
     }).then(this._checkResponse);
@@ -48,7 +54,7 @@ class Request {
   }
 
   _token(): string {
-    return 'Bearer ' + JSON.parse(localStorage.getItem('tokens') ?? '');
+    return 'Bearer ' + this.tokens;
   }
 }
 

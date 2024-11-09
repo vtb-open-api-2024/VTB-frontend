@@ -15,7 +15,7 @@ import { ShareAppPG } from './one-way-pages/share-app/ShareAppPage';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, store } from './redux/store';
 import { auth } from './api/auth';
-import { login, logout, setAuthError, setSignInError } from './redux/authSlice';
+import { login, logout, setAuthError, setSignInError, setTokens } from './redux/authSlice';
 import { History } from './func-pages/history-page/History';
 import { useEffect, useRef } from 'react';
 import { ExchangePage } from './func-pages/exchange-page/Exchange';
@@ -32,6 +32,8 @@ function App() {
   const signInError = useSelector((state: RootState) => state.auth.signInError);
   const authError = useSelector((state: RootState) => state.auth.authError);
   const passwordConfirmed = useSelector((state: RootState) => state.auth.passwordConfirmed);
+  const loggedByPassword = useSelector((state: RootState) => state.auth.loggedByPassword);
+  const tokens = useSelector((state: RootState) => state.auth.tokens);
 
   // user portfolios & wallets states
   const wallets = useSelector((state: RootState) => state.wallets);
@@ -45,14 +47,13 @@ function App() {
   function handleSignInSubmit(number: string) {
     auth
       .getVerifCode({ phone: number })
-      .then((res: string) => {
+      .then(() => {
         dispatch(setSignInError(false));
         moveTo('/auth');
       })
       .catch(() => {
         dispatch(setSignInError(true));
-      })
-      .finally(() => moveTo('/auth'));
+      });
   }
 
   function handleAuthCodeSubmit(code: string) {
@@ -60,7 +61,7 @@ function App() {
       .sendVerifCode(code)
       .then((tokens) => {
         setAuthError(false);
-        localStorage.setItem('tokens', JSON.stringify(tokens));
+        dispatch(setTokens(tokens));
         if (passwordConfirmed) {
           moveTo('/psw-enter');
         } else {
@@ -70,13 +71,6 @@ function App() {
       .catch(() => {
         setAuthError(true);
         dispatch(logout());
-      })
-      .finally(() => {
-        if (passwordConfirmed) {
-          moveTo('/psw-enter');
-        } else {
-          moveTo('/psw-create');
-        }
       });
   }
 
@@ -93,10 +87,40 @@ function App() {
     moveTo('/psw-create');
   }
 
+  function validateToken() {
+    if (tokens) {
+      return auth
+        .validateToken(tokens)
+        .then((valid) => {
+          if (valid) {
+            dispatch(login())
+          } else {
+            auth.refreshToken(tokens).then((tokens) => {
+              dispatch(setTokens(tokens))
+              dispatch(login())
+            }).catch(() => {
+              dispatch(logout())
+              console.log('error on refreshTokens')
+            })
+          }
+          
+        })
+        .catch(() => {
+          dispatch(logout());
+        });
+    }
+    return Promise.reject().then(() => {}, (err) => {
+      console.log('no tokens in localstorage')
+    })
+  }
+
   function getWallets() {
     // todo: fix logics
-    request
-      .getWallets(0)
+    
+    validateToken().then(() => 
+      request
+        .getWallets()
+      )
       .then((wallets) => {
         if (!wallets) {
           return true;
@@ -119,16 +143,20 @@ function App() {
   }
 
   useEffect(() => {
+    validateToken()
     // TODO: ProtectedRoute for auth
-    if (localStorage.getItem('tokens')) {
+    if (tokens && passwordConfirmed) {
       dispatch(login());
       moveTo('/psw-enter');
+    } else if (tokens) {
+      moveTo('/psw-create');
     } else {
       moveTo('/');
     }
   }, []);
 
   useEffect(() => {
+    console.log('isAuthenticated:', isAuthenticated);
     if (isAuthenticated) getWallets();
   }, [isAuthenticated]);
 
@@ -143,7 +171,7 @@ function App() {
   }
 
   function openInviteFriensCardPopup() {
-    const isBind = localStorage.getItem('isCardBound');
+    const isBind = localStorage.getItem('isFriendsInvited');
     if (isBind) {
       return;
     } else {
@@ -199,7 +227,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HeroPG waypoint={'/sign-up'} spareWaypoint={'/binding'} />} />
           <Route path="/binding" element={<LogInPage waypoint="/auth" spareWaypoint="/sign-up" />} />
-          <Route path="/sign-up" element={<SignUpPage error={signInError} signInHandler={handleSignInSubmit} />} />
+          <Route path="/sign-up" element={<SignUpPage signInHandler={handleSignInSubmit} />} />
           <Route path="/auth" element={<AuthPage error={authError} authHandler={handleAuthCodeSubmit} />} />
           <Route path="/psw-create" element={<CreatePswPage handleCreatePassword={handleCreatePassword} />} />
           <Route
@@ -214,7 +242,7 @@ function App() {
           <Route path="/home" element={<MainPage />} />
           <Route path="/bind-card" element={<BindCardPage waypoint="/buy" spareWaypoint="/home" />} />
           <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home" />} />
-          <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation}></ExchangePage>} />
+          <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation} />} />
           <Route
             path="/confirm"
             element={<AuthPage waypoint="/transaction" spareWaypoint="/buy" authHandler={handleAuthCodeSubmit} />}

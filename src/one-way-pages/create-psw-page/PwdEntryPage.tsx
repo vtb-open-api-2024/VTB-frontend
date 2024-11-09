@@ -14,7 +14,6 @@ interface iPwdEntryPage {
 
 export const PwdEntryPage = ({ handleLoggedByPassword, handleForgotPassword }: iPwdEntryPage) => {
   const dispatch = useDispatch<AppDispatch>();
-  const confirmedPassword = useSelector((state: RootState) => state.auth.confirmedPassword);
   const loggedByPassword = useSelector((state: RootState) => state.auth.loggedByPassword);
 
   const [currentPassword, setCurrentPassword] = useState('');

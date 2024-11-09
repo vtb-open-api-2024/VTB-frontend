@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type Tokens = {
+  refreshToken: string;
+  accessToken: string;
+}
+
 interface AuthState {
   isAuthenticated: boolean;
   username: string | null;
@@ -10,11 +15,15 @@ interface AuthState {
   passwordConfirmed: boolean | null | undefined;
   password: string;
   confirmedPassword: string;
+  tokens: Tokens | null
 }
 
 const passwordCreated = !!localStorage.getItem('password');
 const passwordConfirmed = localStorage.getItem('password') ? true : null;
 const password = localStorage.getItem('password') ?? '';
+
+const tokensExist = localStorage.getItem('tokens')
+const tokens = tokensExist ? JSON.parse(tokensExist) : null
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -27,6 +36,7 @@ const initialState: AuthState = {
   passwordConfirmed: passwordConfirmed,
   password: '',
   confirmedPassword: password,
+  tokens: tokens
 };
 
 const authSlice = createSlice({
@@ -39,12 +49,19 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.isAuthenticated = false;
+      state.loggedByPassword = false;
+      localStorage.removeItem('tokens');
+
     },
     setSignInError(state, action: PayloadAction<boolean>) {
       state.signInError = action.payload;
     },
     setAuthError(state, action: PayloadAction<boolean>) {
       state.authError = action.payload;
+    },
+    setTokens(state, action: PayloadAction<Tokens>) {
+      state.tokens = action.payload
+      localStorage.setItem('tokens', JSON.stringify(tokens));
     },
     createPassword(state, action: PayloadAction<string>) {
       state.password = action.payload;
@@ -55,14 +72,16 @@ const authSlice = createSlice({
         state.confirmedPassword = action.payload;
         state.passwordConfirmed = true;
         localStorage.setItem('password', action.payload);
-        state.isAuthenticated = true;
       } else {
         // switch between null and false is need to made work useEffect
         state.passwordConfirmed = state.passwordConfirmed === false ? undefined : false;
       }
     },
     checkPassword(state, action: PayloadAction<string>) {
-      if (action.payload === state.confirmedPassword) state.loggedByPassword = true;
+      if (action.payload === state.confirmedPassword) {
+        state.loggedByPassword = true;
+        state.isAuthenticated = true
+      }
       else state.loggedByPassword = state.loggedByPassword === false ? undefined : false;
     },
     resetPassword(state) {
@@ -85,6 +104,7 @@ export const {
   createPassword,
   checkPassword,
   confirmPassword,
+  setTokens,
   resetPassword,
 } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,9 +1,7 @@
-type Phone = { phone: string };
 
-type Tokens = {
-  accessToken: string;
-  refreshToken: string;
-};
+import { Tokens } from '../redux/authSlice';
+
+type Phone = { phone: string };
 
 class Auth {
   private _baseUrl: string;
@@ -13,6 +11,8 @@ class Auth {
   }
 
   _checkResponse(res: any) {
+    console.log(res)
+    
     if (res.ok) {
       return res.json();
     }
@@ -55,12 +55,27 @@ class Auth {
     }).then(this._checkResponse);
   }
 
-  refreshToken() {
+  validateToken(tokens: Tokens) {
+    const myHeaders = new Headers();
+    myHeaders.append('accept', '*/*');
+    myHeaders.append('Authorization', `Bearer ${tokens.accessToken}`);
+
+    return fetch(`${this._baseUrl}/auth/validate-token`, {
+      method: 'GET',
+      headers: myHeaders,
+    }).then(this._checkResponse);
+  }
+
+  refreshToken(tokens: Tokens) {
+    const myHeaders = new Headers();
+    myHeaders.append('accept', '*/*');
+    myHeaders.append('Authorization', `Bearer ${tokens.accessToken}`);
+
     return fetch(`${this._baseUrl}/auth/refresh-token`, {
       method: 'GET',
       redirect: 'follow',
+      headers: myHeaders,
     }).then(this._checkResponse);
-    // TODO: if refresh succeed, set localstorage Tokens, else clear localstorage
   }
 }
 
