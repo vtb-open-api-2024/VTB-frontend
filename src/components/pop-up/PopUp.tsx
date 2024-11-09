@@ -6,10 +6,10 @@ interface iPopUp {
   waypoint: string;
   desc?: string;
   img?: string;
-  setPopupState: (newState: boolean) => void;
+  closePopup: (newState: boolean) => void;
 }
 
-export const PopUpCMP = ({ msg = 'msg', waypoint, desc = 'desc', img, setPopupState }: iPopUp) => {
+export const PopUpCMP = ({ msg = 'msg', waypoint, desc = 'desc', img, closePopup }: iPopUp) => {
   const moveTo = useNavigate();
   return (
     <div className={styles.container}>
@@ -24,7 +24,7 @@ export const PopUpCMP = ({ msg = 'msg', waypoint, desc = 'desc', img, setPopupSt
       >
         Продолжить
       </button>
-      <div onClick={() => setPopupState(false)} className={styles.bottomText}>
+      <div onClick={() => closePopup(false)} className={styles.bottomText}>
         не нужно
       </div>
     </div>

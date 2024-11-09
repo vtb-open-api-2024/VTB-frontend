@@ -1,12 +1,10 @@
 export type Wallet = {
   id: string;
   name: string;
-  currensies: [
-    { currency: Currency; ammount: 100 },
-    { currency: Currency; ammount: 0.45 },
-    { currency: Currency; ammount: 4.05 },
-  ];
+  currensies: CurrenciesItem[];
 };
+
+export type CurrenciesItem = { currency: Currency; ammount: number };
 
 export type Currency = {
   currency: CurrencyEnum;

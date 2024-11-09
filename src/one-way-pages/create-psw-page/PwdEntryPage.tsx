@@ -1,44 +1,57 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { useEffect, useState } from 'react';
 import { CancelIcon } from '../../components/icons/cancel';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { checkPassword, resetPassword } from '../../redux/authSlice';
 
 interface iPwdEntryPage {
   waypoint?: string;
   spareWaypoint?: string;
+  handleLoggedByPassword: () => void;
+  handleForgotPassword: () => void;
 }
 
-export const PwdEntryPage = ({ waypoint = '/' }: iPwdEntryPage) => {
-  const moveTo = useNavigate();
-  const [currentInput, setCurrentInput] = useState('');
+export const PwdEntryPage = ({ handleLoggedByPassword, handleForgotPassword }: iPwdEntryPage) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const loggedByPassword = useSelector((state: RootState) => state.auth.loggedByPassword);
+
+  const [currentPassword, setCurrentPassword] = useState('');
   const [message, setMessage] = useState('Введите пароль, чтобы продолжить');
 
   const checkPswd = (input: string) => {
-    const password = localStorage.getItem('password');
-    if (password == input) {
-      moveTo(waypoint);
-    } else {
-      setMessage('Пароль неверен. Попробуйте еще раз');
-      setCurrentInput('');
-      return;
-    }
+    dispatch(checkPassword(currentPassword));
   };
 
   const handleDelete = () => {
-    setCurrentInput((prev) => prev.slice(0, -1));
+    setCurrentPassword((prev) => prev.slice(0, -1));
   };
 
   const handleNumberClick = (number: number) => {
-    if (currentInput.length < 4) {
-      setCurrentInput((prev) => prev + number);
+    if (currentPassword.length < 4) {
+      setCurrentPassword((prev) => prev + number);
     }
   };
 
   useEffect(() => {
-    if (currentInput.length === 4) {
-      checkPswd(currentInput);
+    if (currentPassword.length === 4) {
+      checkPswd(currentPassword);
     }
-  }, [currentInput]);
+  }, [currentPassword]);
+
+  useEffect(() => {
+    if (loggedByPassword) {
+      handleLoggedByPassword();
+    } else if (loggedByPassword !== null) {
+      setMessage('Пароль неверен. Попробуйте еще раз');
+      setCurrentPassword('');
+    }
+  }, [loggedByPassword]);
+
+  function forgotPassword() {
+    dispatch(resetPassword());
+    handleForgotPassword();
+  }
 
   return (
     <div className={'page one-way-page'}>
@@ -50,7 +63,7 @@ export const PwdEntryPage = ({ waypoint = '/' }: iPwdEntryPage) => {
           <div className={styles.passwordSquares}>
             {[0, 1, 2, 3].map((index) => (
               <div key={index} className={styles.passwordSquare}>
-                {currentInput[index] ? '•' : ''}
+                {currentPassword[index] ? '•' : ''}
               </div>
             ))}
           </div>
@@ -69,13 +82,7 @@ export const PwdEntryPage = ({ waypoint = '/' }: iPwdEntryPage) => {
               {0}
             </button>
           </div>
-          <div
-            className={styles.bottomText}
-            onClick={() => {
-              alert('recreate it for now');
-              moveTo('/log-in');
-            }}
-          >
+          <div className={styles.bottomText} onClick={forgotPassword}>
             Забыли пароль?
           </div>
         </div>

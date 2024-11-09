@@ -1,6 +1,7 @@
-type Phone = { phone: string };
 
-type SignupData = Phone & { name: string };
+import { Tokens } from '../redux/authSlice';
+
+type Phone = { phone: string };
 
 class Auth {
   private _baseUrl: string;
@@ -10,6 +11,8 @@ class Auth {
   }
 
   _checkResponse(res: any) {
+    console.log(res)
+    
     if (res.ok) {
       return res.json();
     }
@@ -20,20 +23,6 @@ class Auth {
         throw err.json();
       },
     );
-  }
-
-  signup({ phone, name }: SignupData) {
-    return fetch(`${this._baseUrl}/signup`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phone: phone,
-        name: name,
-      }),
-    }).then(this._checkResponse);
   }
 
   getVerifCode({ phone }: Phone) {
@@ -51,7 +40,7 @@ class Auth {
     }).then(this._checkResponse);
   }
 
-  sendVerifCode(code: string) {
+  sendVerifCode(code: string): Promise<Tokens> {
     const myHeaders = new Headers();
     myHeaders.append('accept', '*/*');
 
@@ -66,6 +55,28 @@ class Auth {
     }).then(this._checkResponse);
   }
 
+  validateToken(tokens: Tokens) {
+    const myHeaders = new Headers();
+    myHeaders.append('accept', '*/*');
+    myHeaders.append('Authorization', `Bearer ${tokens.accessToken}`);
+
+    return fetch(`${this._baseUrl}/auth/validate-token`, {
+      method: 'GET',
+      headers: myHeaders,
+    }).then(this._checkResponse);
+  }
+
+  refreshToken(tokens: Tokens) {
+    const myHeaders = new Headers();
+    myHeaders.append('accept', '*/*');
+    myHeaders.append('Authorization', `Bearer ${tokens.accessToken}`);
+
+    return fetch(`${this._baseUrl}/auth/refresh-token`, {
+      method: 'GET',
+      redirect: 'follow',
+      headers: myHeaders,
+    }).then(this._checkResponse);
+  }
 }
 
 export const auth = new Auth({
