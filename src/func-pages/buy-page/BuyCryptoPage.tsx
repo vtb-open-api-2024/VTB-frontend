@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { Card, Currency, CurrencyEnum } from '../../types';
 import { useEffect, useRef, useState } from 'react';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface iBuyCryptoPage {
   waypoint?: string;
@@ -9,6 +11,9 @@ interface iBuyCryptoPage {
 }
 
 export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCryptoPage) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const cards = useSelector((state: RootState) => state.wallets.cards);
+
   const moveTo = useNavigate();
   const [CardcurrentIndex, setCardCurrentIndex] = useState(0);
   const [CurcurrentIndex, setCurCurrentIndex] = useState(0);
@@ -18,25 +23,6 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCrypt
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-
-  const cards: Card[] = [
-    {
-      id: 'dummy',
-      cardHolderName: undefined,
-      CardName: undefined,
-      cardNumber: '2002200220022002',
-      cardExpiryDate: undefined,
-      balance: 10000,
-    },
-    {
-      id: 'dummy2',
-      cardHolderName: undefined,
-      CardName: undefined,
-      cardNumber: '200220022002222',
-      cardExpiryDate: undefined,
-      balance: 10500,
-    },
-  ]; // fetch cards from API or local storage
 
   const currencies: Currency[] = [
     { currency: CurrencyEnum.BTC, cource: 0.000015 },
@@ -144,7 +130,6 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCrypt
           {cards.map((card) => (
             <div className={styles.cardWrapper}>
               <h1 className={styles.cardName}>{card.CardName ? card.CardName : 'Digital card'}</h1>
-              <h2 className={styles.cardHolder}>{card.cardHolderName ? card.cardHolderName : 'CARD HOLDER'}</h2>
               <div className={styles.cardBottomInfo}>
                 <p className={styles.cardNumber}>{'• ' + card.cardNumber.slice(-4)}</p>
                 <p className={styles.cardBalance}>{card.balance.toFixed(2) + ' ₽'}</p>

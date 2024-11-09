@@ -14,6 +14,7 @@ class Auth {
     console.log(res)
     
     if (res.ok) {
+      if (res.url.indexOf('send-code') !== -1) return {}
       return res.json();
     }
 

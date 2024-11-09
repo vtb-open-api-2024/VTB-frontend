@@ -36,7 +36,7 @@ function App() {
   const tokens = useSelector((state: RootState) => state.auth.tokens);
 
   // user portfolios & wallets states
-  const wallets = useSelector((state: RootState) => state.wallets);
+  const wallets = useSelector((state: RootState) => state.wallets.wallets);
   const popUpData = useSelector((state: RootState) => state.popup.data);
   const isPopUpOpen = useSelector((state: RootState) => state.popup.isOpen);
 
@@ -53,6 +53,11 @@ function App() {
       })
       .catch(() => {
         dispatch(setSignInError(true));
+      })
+      .finally(() => {
+        // заглушка пока бэк не работает
+        dispatch(setSignInError(false));
+        moveTo('/auth');
       });
   }
 
@@ -71,6 +76,15 @@ function App() {
       .catch(() => {
         setAuthError(true);
         dispatch(logout());
+      })
+      .finally(() =>{
+        setAuthError(false);
+        dispatch(setTokens({accessToken: '', refreshToken: ''}));
+        if (passwordConfirmed) {
+          moveTo('/psw-enter');
+        } else {
+          moveTo('/psw-create');
+        }
       });
   }
 
@@ -88,27 +102,30 @@ function App() {
   }
 
   function validateToken() {
-    if (tokens) {
-      return auth
-        .validateToken(tokens)
-        .then((valid) => {
-          if (valid) {
-            dispatch(login())
-          } else {
-            auth.refreshToken(tokens).then((tokens) => {
-              dispatch(setTokens(tokens))
-              dispatch(login())
-            }).catch(() => {
-              dispatch(logout())
-              console.log('error on refreshTokens')
-            })
-          }
+    return Promise.resolve()
+
+    // if (tokens) {
+    //   return auth
+    //     .validateToken(tokens)
+    //     .then((valid) => {
+    //       if (valid) {
+    //         dispatch(login())
+    //       } else {
+    //         auth.refreshToken(tokens).then((tokens) => {
+    //           dispatch(setTokens(tokens))
+    //           dispatch(login())
+    //         }).catch(() => {
+    //           dispatch(logout())
+    //           console.log('error on refreshTokens')
+    //         })
+    //       }
           
-        })
-        .catch(() => {
-          dispatch(logout());
-        });
-    }
+    //     })
+    //     .catch(() => {
+    //       dispatch(logout());
+    //     });
+    // }
+    
     return Promise.reject().then(() => {}, (err) => {
       console.log('no tokens in localstorage')
     })
@@ -183,6 +200,11 @@ function App() {
     dispatch(closePopUp());
   }
 
+  function handleBindCard() {
+    dispatch(closePopUp());
+    moveTo('/bind-card');
+  }
+
   // closes popup on touch
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -221,6 +243,7 @@ function App() {
               desc={popUpData.desc}
               img={popUpData.img}
               closePopup={closePopup}
+              handleBindCard={handleBindCard}
             />
           )}
         </div>

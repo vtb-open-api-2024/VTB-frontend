@@ -38,3 +38,8 @@
   outline: none;
   border: none;
 }
+
+.minibutton:active {
+  background: none;
+  opacity: 0.8;
+}
