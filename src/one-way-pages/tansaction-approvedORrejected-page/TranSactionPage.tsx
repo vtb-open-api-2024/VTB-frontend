@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
-import { BTCIcon } from '../../components/icons/cryptocurency';
+import { TransactionApprovedIcon } from '../../components/icons/TransactionApprovedIcon copy';
+import { TransactionDenyIcon } from '../../components/icons/TransactionDenyIcon';
+import { RubleIcon } from './currencyIcons/rubleIcon';
+import { BtcIcon } from './currencyIcons/btcIcon';
 
 interface iHeroPG {
   waypoint: string | undefined;
@@ -32,14 +35,14 @@ export const TransActionPage = ({ waypoint = '/' }: iHeroPG) => {
       </h1>
       <div className={styles.transactionInfo}>
         <div className={styles.leftSide}>
-          <div>₽</div>
+          <RubleIcon />
           <p>{transactionInfo.sellAmmount}</p>
         </div>
         <div className={styles.centerSide}>
-          <div>{transactionInfo.status == 'approved' ? '→' : 'X'}</div>
+          <div>{transactionInfo.status == 'approved' ? <TransactionApprovedIcon /> : <TransactionDenyIcon />}</div>
         </div>
         <div className={styles.rightSide}>
-          <BTCIcon />
+          <BtcIcon />
           <p>{transactionInfo.buyAmmount}</p>
         </div>
       </div>
