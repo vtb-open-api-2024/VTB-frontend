@@ -24,6 +24,7 @@ import { PopUpCMP } from './components/pop-up/PopUp';
 import { closePopUp, openPopUp, updatePopUpData } from './redux/popUpSlice';
 import { addWallet, setWallets } from './redux/walletsSlice';
 import { bindCardPopupData, inviteFriendPopupData } from './mockData';
+import { ReceivePg } from './one-way-pages/receive-page/ReceivePage';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -77,9 +78,9 @@ function App() {
         setAuthError(true);
         dispatch(logout());
       })
-      .finally(() =>{
+      .finally(() => {
         setAuthError(false);
-        dispatch(setTokens({accessToken: '', refreshToken: ''}));
+        dispatch(setTokens({ accessToken: '', refreshToken: '' }));
         if (passwordConfirmed) {
           moveTo('/psw-enter');
         } else {
@@ -88,6 +89,7 @@ function App() {
       });
   }
 
+  // props to waypoint
   function handleLoggedByPassword() {
     moveTo('/home');
     openBindCardPopup();
@@ -102,7 +104,7 @@ function App() {
   }
 
   function validateToken() {
-    return Promise.resolve()
+    return Promise.resolve();
 
     // if (tokens) {
     //   return auth
@@ -119,25 +121,26 @@ function App() {
     //           console.log('error on refreshTokens')
     //         })
     //       }
-          
+
     //     })
     //     .catch(() => {
     //       dispatch(logout());
     //     });
     // }
-    
-    return Promise.reject().then(() => {}, (err) => {
-      console.log('no tokens in localstorage')
-    })
+
+    return Promise.reject().then(
+      () => {},
+      (err) => {
+        console.log('no tokens in localstorage');
+      },
+    );
   }
 
   function getWallets() {
     // todo: fix logics
-    
-    validateToken().then(() => 
-      request
-        .getWallets()
-      )
+
+    validateToken()
+      .then(() => request.getWallets())
       .then((wallets) => {
         if (!wallets) {
           return true;
@@ -160,7 +163,7 @@ function App() {
   }
 
   useEffect(() => {
-    validateToken()
+    validateToken();
     // TODO: ProtectedRoute for auth
     if (tokens && passwordConfirmed) {
       dispatch(login());
@@ -187,6 +190,7 @@ function App() {
     }
   }
 
+  // setItem in localstorage after buy
   function openInviteFriensCardPopup() {
     const isBind = localStorage.getItem('isFriendsInvited');
     if (isBind) {
@@ -268,11 +272,17 @@ function App() {
           <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation} />} />
           <Route
             path="/confirm"
-            element={<PwdEntryPage handleLoggedByPassword={handleLoggedByPassword} handleForgotPassword={handleForgotPassword} />}
+            element={
+              <PwdEntryPage
+                handleLoggedByPassword={handleLoggedByPassword}
+                handleForgotPassword={handleForgotPassword}
+              />
+            }
           />
           <Route path="/transaction" element={<TransActionPage waypoint="/home" />} />
           <Route path="/share-app" element={<ShareAppPG waypoint="/home" />} />
           <Route path="/history" element={<History />} />
+          <Route path="/receive" element={<ReceivePg waypoint="/home" />} />
         </Routes>
       </div>
     </Provider>
