@@ -3,9 +3,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export type Tokens = {
   refreshToken: string;
   accessToken: string;
-}
+};
 
-export type PasswordReferrer = 'login' | 'transaction'
+export type PasswordReferrer = 'login' | 'transaction';
 
 interface AuthState {
   isAuthenticated: boolean;
@@ -25,8 +25,8 @@ const passwordCreated = !!localStorage.getItem('password');
 const passwordConfirmed = localStorage.getItem('password') ? true : null;
 const password = localStorage.getItem('password') ?? '';
 
-const tokensExist = localStorage.getItem('tokens')
-const tokens = tokensExist ? JSON.parse(tokensExist) : null
+const tokensExist = localStorage.getItem('tokens');
+const tokens = tokensExist ? JSON.parse(tokensExist) : null;
 
 const initialState: AuthState = {
   isAuthenticated: false,
@@ -40,7 +40,7 @@ const initialState: AuthState = {
   password: '',
   confirmedPassword: password,
   tokens: tokens,
-  passwordReferrer: 'login'
+  passwordReferrer: 'login',
 };
 
 const authSlice = createSlice({
@@ -63,7 +63,7 @@ const authSlice = createSlice({
       state.authError = action.payload;
     },
     setTokens(state, action: PayloadAction<Tokens>) {
-      state.tokens = action.payload
+      state.tokens = action.payload;
       localStorage.setItem('tokens', JSON.stringify(tokens));
     },
     createPassword(state, action: PayloadAction<string>) {
@@ -83,9 +83,8 @@ const authSlice = createSlice({
     checkPassword(state, action: PayloadAction<string>) {
       if (action.payload === state.confirmedPassword) {
         state.loggedByPassword = true;
-        state.isAuthenticated = true
-      }
-      else state.loggedByPassword = state.loggedByPassword === false ? undefined : false;
+        state.isAuthenticated = true;
+      } else state.loggedByPassword = state.loggedByPassword === false ? undefined : false;
     },
     resetPassword(state) {
       state.password = '';
@@ -97,9 +96,9 @@ const authSlice = createSlice({
       localStorage.removeItem('password');
     },
     setReferrer(state, action: PayloadAction<PasswordReferrer>) {
-      state.passwordReferrer = action.payload
-      state.loggedByPassword = null
-    }
+      state.passwordReferrer = action.payload;
+      state.loggedByPassword = null;
+    },
   },
 });
 
@@ -113,6 +112,6 @@ export const {
   confirmPassword,
   setTokens,
   resetPassword,
-  setReferrer
+  setReferrer,
 } = authSlice.actions;
 export default authSlice.reducer;

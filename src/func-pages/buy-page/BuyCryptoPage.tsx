@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 interface iBuyCryptoPage {
   waypoint?: string;
   spareWaypoint?: string;
-  confirmBuy: () => void
+  confirmBuy: () => void;
 }
 
 export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/', confirmBuy }: iBuyCryptoPage) => {
@@ -110,7 +110,7 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/', confirmBuy 
   }, [CardcurrentIndex]);
 
   function handleBuy() {
-    if (isOk) confirmBuy() 
+    if (isOk) confirmBuy();
   }
 
   return (
@@ -172,11 +172,7 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/', confirmBuy 
       <div className={styles.inputWrapper}>
         <input type="number" value={currencyAmmount.toFixed(6)} onChange={currencyInputFieldChange} />
       </div>
-      <button
-        disabled={!isOk}
-        className={styles.buyBtn + ' button '}
-        onClick={handleBuy}
-      >
+      <button disabled={!isOk} className={styles.buyBtn + ' button '} onClick={handleBuy}>
         Купить
       </button>
     </div>

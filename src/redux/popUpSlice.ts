@@ -1,21 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PopupData } from '../mockData';
 
-interface PopUpData {
-  waypoint: string;
-  msg: string;
-  desc: string;
-  img: string;
-}
+const data: PopupData = {
+  waypoint: '',
+  msg: '',
+  desc: '',
+  img: '',
+  buttonText: '',
+  minibuttonText: '',
+  type: null,
+};
 
 const popUpSlice = createSlice({
   name: 'popUp',
   initialState: {
-    data: {
-      waypoint: '',
-      msg: '',
-      desc: '',
-      img: '',
-    } as PopUpData,
+    data: data,
     isOpen: false,
   },
   reducers: {
@@ -25,7 +24,7 @@ const popUpSlice = createSlice({
     closePopUp: (state) => {
       state.isOpen = false;
     },
-    updatePopUpData: (state, action: PayloadAction<PopUpData>) => {
+    updatePopUpData: (state, action: PayloadAction<PopupData>) => {
       state.data = action.payload;
     },
   },

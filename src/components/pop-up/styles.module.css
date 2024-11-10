@@ -8,8 +8,32 @@
   color: white;
 }
 
+.invite_container {
+  background-image: url('src/assets/inviteFriends.png');
+}
+
+.invite_container_desc {
+  font-size: 20px;
+  text-align: center;
+}
+
 .title {
   margin: 0;
+}
+
+.title span {
+  color: #02a4f5;
+}
+
+.title_invite {
+  font-size: 24px;
+  text-align: center;
+}
+
+.title_invite span {
+  font-size: 26px;
+  display: block;
+  color: white;
 }
 
 .container img {

@@ -1,17 +1,35 @@
-import { Card, CurrencyEnum, Wallet } from "./types";
+import { Card, CurrencyEnum, Wallet } from './types';
 
-export const bindCardPopupData = {
+export type PopupType = 'bind' | 'invite' | null;
+
+export type PopupData = {
+  waypoint: string;
+  msg: string;
+  desc: string;
+  img: string;
+  buttonText: string;
+  minibuttonText: string;
+  type: PopupType;
+};
+
+export const bindCardPopupData: PopupData = {
   waypoint: '/bind-card',
   msg: 'Добавьте карту и покупайте валюту прямо в свой кошелек',
   desc: '',
   img: 'src/assets/creditCard.png',
+  buttonText: 'Продолжить',
+  minibuttonText: 'Выпустить карту ВТБ',
+  type: 'bind',
 };
 
-export const inviteFriendPopupData = {
+export const inviteFriendPopupData: PopupData = {
   waypoint: '/share-app',
-  msg: 'Поздравляем с первой сделкой',
+  msg: 'Поздравляем с первой сделкой!',
   desc: 'Рекомендуйте приложение друзьям!',
-  img: 'src/assets/creditCard.png',
+  img: '',
+  buttonText: 'Рекомендовать',
+  minibuttonText: '',
+  type: 'invite',
 };
 
 export const firstWallet: Wallet = {
