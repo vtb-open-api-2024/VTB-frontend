@@ -4,6 +4,7 @@ import { Card, Currency, CurrencyEnum } from '../../types';
 import { useEffect, useRef, useState } from 'react';
 import { AppDispatch, RootState } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { BackArrowIcon } from '../../components/icons/backArrowIcon';
 
 interface iBuyCryptoPage {
   waypoint?: string;
@@ -111,7 +112,9 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCrypt
   return (
     <div className={'page ' + styles.container}>
       <div className={styles.header}>
-        <button onClick={() => moveTo(spareWaypoint)}>{'<'}</button>
+        <button onClick={() => moveTo(spareWaypoint)}>
+          <BackArrowIcon />
+        </button>
         Покупка
       </div>
       {/* slider for cards */}
