@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tokens } from '../redux/authSlice';
 import { Wallet } from '../types';
-import { auth } from './auth';
 
 class Request {
   private _baseUrl: string;

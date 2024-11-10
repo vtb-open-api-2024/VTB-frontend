@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
-import { Card, Currency, CurrencyEnum } from '../../types';
+import { Currency, CurrencyEnum } from '../../types';
 import { useEffect, useRef, useState } from 'react';
-import { AppDispatch, RootState } from '../../redux/store';
-import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
 import { BackArrowIcon } from '../../components/icons/backArrowIcon';
 
 interface iBuyCryptoPage {
@@ -12,8 +12,7 @@ interface iBuyCryptoPage {
   confirmBuy: () => void;
 }
 
-export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/', confirmBuy }: iBuyCryptoPage) => {
-  const dispatch = useDispatch<AppDispatch>();
+export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPage) => {
   const cards = useSelector((state: RootState) => state.wallets.cards);
 
   const moveTo = useNavigate();

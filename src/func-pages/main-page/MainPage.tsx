@@ -2,9 +2,6 @@ import { HeaderCMP } from '../../components/header/Header';
 import { NavBarMenuCMP } from '../../components/nav-bar-menu/NavBarMenu';
 import { WalletWiewCMP } from '../../components/wallet-view/WalletView';
 import styles from './styles.module.css';
-import { Wallet } from '../../types';
-
-interface iMainPage {}
 
 export const MainPage = () => {
   return (

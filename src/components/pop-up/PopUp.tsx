@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import styles from './styles.module.css';
 
 interface iPopUp {
@@ -8,7 +8,6 @@ interface iPopUp {
 }
 
 export const PopUpCMP = ({ closePopup, popupHandler }: iPopUp) => {
-  const dispatch = useDispatch<AppDispatch>();
   const popUpData = useSelector((state: RootState) => state.popup.data);
 
   function nextHandler() {

@@ -36,7 +36,6 @@ function App() {
   const passwordReferrer = useSelector((state: RootState) => state.auth.passwordReferrer);
 
   // user portfolios & wallets states
-  const wallets = useSelector((state: RootState) => state.wallets.wallets);
   const popUpData = useSelector((state: RootState) => state.popup.data);
   const isPopUpOpen = useSelector((state: RootState) => state.popup.isOpen);
 
@@ -135,7 +134,7 @@ function App() {
 
     return Promise.reject().then(
       () => {},
-      (err) => {
+      () => {
         console.log('no tokens in localstorage');
       },
     );

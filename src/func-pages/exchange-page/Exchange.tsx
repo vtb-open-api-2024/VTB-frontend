@@ -18,7 +18,6 @@ export const ExchangePage = ({ confirmExchange, spareWaypoint = '/home' }: iExch
   const moveTo = useNavigate();
 
   const dispatch = useDispatch<AppDispatch>();
-  const wallets = useSelector((state: RootState) => state.wallets.wallets);
   const choosenWallet = useSelector((state: RootState) => state.wallets.choosenWallet);
   const chooseWalletOpened = useSelector((state: RootState) => state.wallets.chooseWalletOpened);
 
