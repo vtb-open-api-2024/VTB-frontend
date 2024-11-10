@@ -1,23 +1,18 @@
-FROM node:18 AS build
-
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
+FROM node:21.7.3-slim
+WORKDIR /usr/src/app
 COPY . .
+RUN npm install \
+    && npm run build \
+    && npm prune --omit=dev \
+    && npm cache clean --force
 
-RUN npm run build
+FROM node:21.7.3-slim
+RUN groupadd -r appuser && useradd -r -g appuser -s /sbin/nologin -d /usr/src/app appuser \
+    && mkdir -p /usr/src/app \
+    && chown -R appuser:appuser /usr/src/app 
 
-FROM node:18 AS production
-
-WORKDIR /app
-
-RUN npm install -g serve
-
-COPY --from=build /app/dist /app/dist
-
+WORKDIR /usr/src/app
+COPY --from=0 /usr/src/app/ ./
+USER appuser
 EXPOSE 4200
-
-CMD ["serve", "-s", "dist", "-l", "4200"]
+CMD ["npx", "serve", "-s", "dist", "-l", "4200"]

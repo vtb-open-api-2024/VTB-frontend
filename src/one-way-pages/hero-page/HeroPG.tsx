@@ -13,24 +13,25 @@ export const HeroPG = ({ waypoint = '/' }: iHeroPG) => {
   return (
     <div className={` hero-page`}>
       <div className={`page one-way-page ${styles.hero_page_bg}`}>
-      <h1 className={styles.header}>
-        <span>Получите</span> доступ к&nbsp;криптовалютам
-      </h1>
-      <p className={styles.paragraph}>
-      Перемещайте BTC, ETH, USDT 
-      и другие токены между вашим кошельком и <span>ВТБ</span>
-      </p>
-      <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
-        Создать кошелек
-      </button>
-      <div
-        onClick={() => {
-          moveTo(waypoint);
-        }}
-        className={styles.bottomText}
-      >
-        Есть кошелек? Войти
-      </div>
+        <h1 className={styles.header}>
+          <span>Получите</span> доступ к&nbsp;криптовалютам
+        </h1>
+        <p className={styles.paragraph}>
+          Перемещайте BTC, ETH, USDT и другие токены между вашим кошельком и <span>ВТБ</span>
+        </p>
+        <div className={styles.buttonsWrapper}>
+          <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
+            Создать кошелек
+          </button>
+          <div
+            onClick={() => {
+              moveTo(waypoint);
+            }}
+            className={styles.bottomText}
+          >
+            Есть кошелек? Войти
+          </div>
+        </div>
       </div>
     </div>
   );
