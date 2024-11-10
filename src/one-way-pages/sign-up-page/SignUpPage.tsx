@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 import styles from './styles.module.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface iSignUpPage {
   signInHandler: (number: string) => void;
@@ -9,7 +9,6 @@ interface iSignUpPage {
 
 export const SignUpPage = ({ signInHandler }: iSignUpPage) => {
   const [number, setNumber] = useState('');
-  const dispatch = useDispatch<AppDispatch>();
   const signInError = useSelector((state: RootState) => state.auth.signInError);
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {

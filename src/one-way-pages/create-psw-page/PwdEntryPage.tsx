@@ -19,7 +19,7 @@ export const PwdEntryPage = ({ handleLoggedByPassword, handleForgotPassword }: i
   const [currentPassword, setCurrentPassword] = useState('');
   const [message, setMessage] = useState('Введите пароль, чтобы продолжить');
 
-  const checkPswd = (input: string) => {
+  const checkPswd = () => {
     dispatch(checkPassword(currentPassword));
   };
 
@@ -35,7 +35,7 @@ export const PwdEntryPage = ({ handleLoggedByPassword, handleForgotPassword }: i
 
   useEffect(() => {
     if (currentPassword.length === 4) {
-      checkPswd(currentPassword);
+      checkPswd();
     }
   }, [currentPassword]);
 

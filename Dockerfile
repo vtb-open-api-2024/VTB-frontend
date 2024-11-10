@@ -3,7 +3,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN npm install \
     && npm run build \
-    && npm prune --omit=dev \
+    && npm prune --production \
     && npm cache clean --force
 
 FROM node:21.7.3-slim
