@@ -45,7 +45,7 @@
   text-align: center;
   width: 90%;
   padding: 18px 0px;
-  background: linear-gradient(180deg, #287AF4 0%, rgb(16 35 67) 95.5%)
+  background: linear-gradient(180deg, #287af4 0%, rgb(16 35 67) 95.5%);
 }
 
 button:active {

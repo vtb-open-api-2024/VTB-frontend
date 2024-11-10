@@ -15,7 +15,7 @@ import { ShareAppPG } from './one-way-pages/share-app/ShareAppPage';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, store } from './redux/store';
 import { auth } from './api/auth';
-import { login, logout, setAuthError, setSignInError, setTokens } from './redux/authSlice';
+import { login, logout, setAuthError, setReferrer, setSignInError, setTokens } from './redux/authSlice';
 import { History } from './func-pages/history-page/History';
 import { useEffect, useRef } from 'react';
 import { ExchangePage } from './func-pages/exchange-page/Exchange';
@@ -24,16 +24,16 @@ import { PopUpCMP } from './components/pop-up/PopUp';
 import { closePopUp, openPopUp, updatePopUpData } from './redux/popUpSlice';
 import { addWallet, setWallets } from './redux/walletsSlice';
 import { bindCardPopupData, inviteFriendPopupData } from './mockData';
+import { ReceivePg } from './one-way-pages/receive-page/ReceivePage';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
   // auth states
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-  const signInError = useSelector((state: RootState) => state.auth.signInError);
   const authError = useSelector((state: RootState) => state.auth.authError);
   const passwordConfirmed = useSelector((state: RootState) => state.auth.passwordConfirmed);
-  const loggedByPassword = useSelector((state: RootState) => state.auth.loggedByPassword);
   const tokens = useSelector((state: RootState) => state.auth.tokens);
+  const passwordReferrer = useSelector((state: RootState) => state.auth.passwordReferrer);
 
   // user portfolios & wallets states
   const wallets = useSelector((state: RootState) => state.wallets.wallets);
@@ -77,9 +77,9 @@ function App() {
         setAuthError(true);
         dispatch(logout());
       })
-      .finally(() =>{
+      .finally(() => {
         setAuthError(false);
-        dispatch(setTokens({accessToken: '', refreshToken: ''}));
+        dispatch(setTokens({ accessToken: '', refreshToken: '' }));
         if (passwordConfirmed) {
           moveTo('/psw-enter');
         } else {
@@ -88,9 +88,14 @@ function App() {
       });
   }
 
+  // props to waypoint
   function handleLoggedByPassword() {
-    moveTo('/home');
-    openBindCardPopup();
+    if (passwordReferrer === 'login') {
+      moveTo('/home');
+      openBindCardPopup();
+    }
+    if (passwordReferrer === 'transaction') moveTo('/transaction')
+    // dispatch(set)
   }
 
   function handleCreatePassword() {
@@ -102,7 +107,7 @@ function App() {
   }
 
   function validateToken() {
-    return Promise.resolve()
+    return Promise.resolve();
 
     // if (tokens) {
     //   return auth
@@ -119,25 +124,26 @@ function App() {
     //           console.log('error on refreshTokens')
     //         })
     //       }
-          
+
     //     })
     //     .catch(() => {
     //       dispatch(logout());
     //     });
     // }
-    
-    return Promise.reject().then(() => {}, (err) => {
-      console.log('no tokens in localstorage')
-    })
+
+    return Promise.reject().then(
+      () => {},
+      (err) => {
+        console.log('no tokens in localstorage');
+      },
+    );
   }
 
   function getWallets() {
     // todo: fix logics
-    
-    validateToken().then(() => 
-      request
-        .getWallets()
-      )
+
+    validateToken()
+      .then(() => request.getWallets())
       .then((wallets) => {
         if (!wallets) {
           return true;
@@ -160,10 +166,11 @@ function App() {
   }
 
   useEffect(() => {
-    validateToken()
+    validateToken();
     // TODO: ProtectedRoute for auth
     if (tokens && passwordConfirmed) {
       dispatch(login());
+      dispatch(setReferrer('login'))
       moveTo('/psw-enter');
     } else if (tokens) {
       moveTo('/psw-create');
@@ -187,6 +194,7 @@ function App() {
     }
   }
 
+  // setItem in localstorage after buy
   function openInviteFriensCardPopup() {
     const isBind = localStorage.getItem('isFriendsInvited');
     if (isBind) {
@@ -229,6 +237,7 @@ function App() {
   }, [isPopUpOpen]);
 
   function handleConfirmOperation() {
+    dispatch(setReferrer('transaction'))
     moveTo('/confirm');
   }
 
@@ -264,15 +273,21 @@ function App() {
           />
           <Route path="/home" element={<MainPage />} />
           <Route path="/bind-card" element={<BindCardPage waypoint="/buy" spareWaypoint="/home" />} />
-          <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home" />} />
+          <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home"  confirmBuy={handleConfirmOperation}  />} />
           <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation} />} />
           <Route
             path="/confirm"
-            element={<PwdEntryPage handleLoggedByPassword={handleLoggedByPassword} handleForgotPassword={handleForgotPassword} />}
+            element={
+              <PwdEntryPage
+                handleLoggedByPassword={handleLoggedByPassword}
+                handleForgotPassword={handleForgotPassword}
+              />
+            }
           />
           <Route path="/transaction" element={<TransActionPage waypoint="/home" />} />
           <Route path="/share-app" element={<ShareAppPG waypoint="/home" />} />
           <Route path="/history" element={<History />} />
+          <Route path="/receive" element={<ReceivePg waypoint="/home" />} />
         </Routes>
       </div>
     </Provider>

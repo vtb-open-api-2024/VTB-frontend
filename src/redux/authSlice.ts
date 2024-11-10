@@ -5,6 +5,8 @@ export type Tokens = {
   accessToken: string;
 }
 
+export type PasswordReferrer = 'login' | 'transaction'
+
 interface AuthState {
   isAuthenticated: boolean;
   username: string | null;
@@ -15,7 +17,8 @@ interface AuthState {
   passwordConfirmed: boolean | null | undefined;
   password: string;
   confirmedPassword: string;
-  tokens: Tokens | null
+  tokens: Tokens | null;
+  passwordReferrer: PasswordReferrer;
 }
 
 const passwordCreated = !!localStorage.getItem('password');
@@ -36,7 +39,8 @@ const initialState: AuthState = {
   passwordConfirmed: passwordConfirmed,
   password: '',
   confirmedPassword: password,
-  tokens: tokens
+  tokens: tokens,
+  passwordReferrer: 'login'
 };
 
 const authSlice = createSlice({
@@ -49,9 +53,8 @@ const authSlice = createSlice({
     },
     logout(state) {
       state.isAuthenticated = false;
-      state.loggedByPassword = false;
+      state.loggedByPassword = null;
       localStorage.removeItem('tokens');
-
     },
     setSignInError(state, action: PayloadAction<boolean>) {
       state.signInError = action.payload;
@@ -93,6 +96,10 @@ const authSlice = createSlice({
 
       localStorage.removeItem('password');
     },
+    setReferrer(state, action: PayloadAction<PasswordReferrer>) {
+      state.passwordReferrer = action.payload
+      state.loggedByPassword = null
+    }
   },
 });
 
@@ -106,5 +113,6 @@ export const {
   confirmPassword,
   setTokens,
   resetPassword,
+  setReferrer
 } = authSlice.actions;
 export default authSlice.reducer;

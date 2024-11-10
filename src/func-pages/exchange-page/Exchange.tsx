@@ -6,6 +6,7 @@ import { ChooseWallet } from './choose-wallet/ChooseWallet';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { toggleChooseWallet } from '../../redux/walletsSlice';
+import { BackArrowIcon } from '../../components/icons/backArrowIcon';
 
 interface iExchangePage {
   waypoint?: string;
@@ -141,7 +142,9 @@ export const ExchangePage = ({ confirmExchange, spareWaypoint = '/home' }: iExch
   return (
     <div className={'page ' + styles.container}>
       <div className={styles.header}>
-        <button onClick={() => moveTo(spareWaypoint)}>{'<'}</button>
+        <button onClick={() => moveTo(spareWaypoint)}>
+          <BackArrowIcon />
+        </button>
         Обмен
       </div>
       {chooseWalletOpened && <ChooseWallet />}
