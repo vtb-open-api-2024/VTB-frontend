@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { TransactionApprovedIcon } from '../../components/icons/TransactionApprovedIcon copy';
 import { TransactionDenyIcon } from '../../components/icons/TransactionDenyIcon';
@@ -6,11 +5,10 @@ import { RubleIcon } from './currencyIcons/rubleIcon';
 import { BtcIcon } from './currencyIcons/btcIcon';
 
 interface iHeroPG {
-  waypoint: string | undefined;
+  transactionHandle: () => void;
 }
 
-export const TransActionPage = ({ waypoint = '/' }: iHeroPG) => {
-  const moveTo = useNavigate();
+export const TransActionPage = ({ transactionHandle }: iHeroPG) => {
   // store для хранения информации о транзакции
 
   const transactionInfo = {
@@ -46,7 +44,7 @@ export const TransActionPage = ({ waypoint = '/' }: iHeroPG) => {
           <p>{transactionInfo.buyAmmount}</p>
         </div>
       </div>
-      <button onClick={() => moveTo(waypoint)} className={'button ' + styles.herobutton}>
+      <button onClick={transactionHandle} className={'button ' + styles.herobutton}>
         Вернуться на главную
       </button>
     </div>

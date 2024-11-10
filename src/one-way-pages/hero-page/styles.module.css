@@ -49,7 +49,7 @@
 }
 
 .hero_page_bg {
-  background-image: url('../src/assets/heroPageBg.png');
+  background-image: url('/assets/heroPageBg.png');
   background-repeat: no-repeat;
   background-position: 30% 5%;
 }
