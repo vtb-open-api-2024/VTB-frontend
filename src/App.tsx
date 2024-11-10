@@ -94,8 +94,10 @@ function App() {
       moveTo('/home');
       openBindCardPopup();
     }
-    if (passwordReferrer === 'transaction') moveTo('/transaction')
-    // dispatch(set)
+    if (passwordReferrer === 'transaction') {
+      moveTo('/transaction');
+      openInviteFriensCardPopup();
+    }
   }
 
   function handleCreatePassword() {
@@ -170,7 +172,7 @@ function App() {
     // TODO: ProtectedRoute for auth
     if (tokens && passwordConfirmed) {
       dispatch(login());
-      dispatch(setReferrer('login'))
+      dispatch(setReferrer('login'));
       moveTo('/psw-enter');
     } else if (tokens) {
       moveTo('/psw-create');
@@ -191,6 +193,7 @@ function App() {
     } else {
       dispatch(updatePopUpData(bindCardPopupData));
       dispatch(openPopUp());
+      localStorage.setItem('isCardBound', JSON.stringify(true));
     }
   }
 
@@ -201,6 +204,8 @@ function App() {
       return;
     } else {
       dispatch(updatePopUpData(inviteFriendPopupData));
+      dispatch(openPopUp());
+      localStorage.setItem('isFriendsInvited', JSON.stringify(true));
     }
   }
 
@@ -208,9 +213,15 @@ function App() {
     dispatch(closePopUp());
   }
 
-  function handleBindCard() {
-    dispatch(closePopUp());
-    moveTo('/bind-card');
+  function handlePopupAction() {
+    if (popUpData.type === 'bind') {
+      dispatch(closePopUp());
+      moveTo('/bind-card');
+    }
+    if (popUpData.type === 'invite') {
+      dispatch(closePopUp());
+      moveTo('/share-app');
+    }
   }
 
   // closes popup on touch
@@ -224,6 +235,9 @@ function App() {
             msg: '',
             desc: '',
             img: '',
+            buttonText: '',
+            minibuttonText: '',
+            type: null,
           }),
         );
       }
@@ -237,7 +251,7 @@ function App() {
   }, [isPopUpOpen]);
 
   function handleConfirmOperation() {
-    dispatch(setReferrer('transaction'))
+    dispatch(setReferrer('transaction'));
     moveTo('/confirm');
   }
 
@@ -245,16 +259,7 @@ function App() {
     <Provider store={store}>
       <div className="layout">
         <div ref={popupRef} className={styles.popUp + ' ' + (isPopUpOpen ? styles.popUpVisible : styles.popUpHidden)}>
-          {isPopUpOpen && (
-            <PopUpCMP
-              msg={popUpData.msg}
-              waypoint={popUpData.waypoint}
-              desc={popUpData.desc}
-              img={popUpData.img}
-              closePopup={closePopup}
-              handleBindCard={handleBindCard}
-            />
-          )}
+          {isPopUpOpen && <PopUpCMP closePopup={closePopup} popupHandler={handlePopupAction} />}
         </div>
         <Routes>
           <Route path="/" element={<HeroPG waypoint={'/sign-up'} spareWaypoint={'/binding'} />} />
@@ -273,7 +278,10 @@ function App() {
           />
           <Route path="/home" element={<MainPage />} />
           <Route path="/bind-card" element={<BindCardPage waypoint="/buy" spareWaypoint="/home" />} />
-          <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home"  confirmBuy={handleConfirmOperation}  />} />
+          <Route
+            path="/buy"
+            element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home" confirmBuy={handleConfirmOperation} />}
+          />
           <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation} />} />
           <Route
             path="/confirm"

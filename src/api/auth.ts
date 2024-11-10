@@ -1,4 +1,3 @@
-
 import { Tokens } from '../redux/authSlice';
 
 type Phone = { phone: string };
@@ -11,10 +10,10 @@ class Auth {
   }
 
   _checkResponse(res: any) {
-    console.log(res)
-    
+    console.log(res);
+
     if (res.ok) {
-      if (res.url.indexOf('send-code') !== -1) return {}
+      if (res.url.indexOf('send-code') !== -1) return {};
       return res.json();
     }
 
