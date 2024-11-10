@@ -1,14 +1,10 @@
 import { useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { BTCIcon } from '../icons/cryptocurency';
-import { Wallet } from '../../types';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
-
-interface iWalletWiewCMP {}
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export const WalletWiewCMP = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const wallets = useSelector((state: RootState) => state.wallets.wallets);
 
   const [currentIndex, setCurrentIndex] = useState(0);
