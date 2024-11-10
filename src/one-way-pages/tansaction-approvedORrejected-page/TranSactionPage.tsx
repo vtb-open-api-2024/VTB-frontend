@@ -34,7 +34,7 @@ export const TransActionPage = ({ transactionHandle }: iHeroPG) => {
       <div className={styles.transactionInfo}>
         <div className={styles.leftSide}>
           <RubleIcon />
-          <p>{transactionInfo.sellAmmount}</p>
+          <p>-{transactionInfo.sellAmmount}</p>
         </div>
         <div className={styles.centerSide}>
           <div>{transactionInfo.status == 'approved' ? <TransactionApprovedIcon /> : <TransactionDenyIcon />}</div>
