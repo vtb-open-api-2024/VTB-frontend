@@ -15,7 +15,7 @@ import { ShareAppPG } from './one-way-pages/share-app/ShareAppPage';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState, store } from './redux/store';
 import { auth } from './api/auth';
-import { login, logout, setAuthError, setSignInError, setTokens } from './redux/authSlice';
+import { login, logout, setAuthError, setReferrer, setSignInError, setTokens } from './redux/authSlice';
 import { History } from './func-pages/history-page/History';
 import { useEffect, useRef } from 'react';
 import { ExchangePage } from './func-pages/exchange-page/Exchange';
@@ -30,11 +30,10 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
   // auth states
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
-  const signInError = useSelector((state: RootState) => state.auth.signInError);
   const authError = useSelector((state: RootState) => state.auth.authError);
   const passwordConfirmed = useSelector((state: RootState) => state.auth.passwordConfirmed);
-  const loggedByPassword = useSelector((state: RootState) => state.auth.loggedByPassword);
   const tokens = useSelector((state: RootState) => state.auth.tokens);
+  const passwordReferrer = useSelector((state: RootState) => state.auth.passwordReferrer);
 
   // user portfolios & wallets states
   const wallets = useSelector((state: RootState) => state.wallets.wallets);
@@ -91,8 +90,12 @@ function App() {
 
   // props to waypoint
   function handleLoggedByPassword() {
-    moveTo('/home');
-    openBindCardPopup();
+    if (passwordReferrer === 'login') {
+      moveTo('/home');
+      openBindCardPopup();
+    }
+    if (passwordReferrer === 'transaction') moveTo('/transaction')
+    // dispatch(set)
   }
 
   function handleCreatePassword() {
@@ -167,6 +170,7 @@ function App() {
     // TODO: ProtectedRoute for auth
     if (tokens && passwordConfirmed) {
       dispatch(login());
+      dispatch(setReferrer('login'))
       moveTo('/psw-enter');
     } else if (tokens) {
       moveTo('/psw-create');
@@ -233,6 +237,7 @@ function App() {
   }, [isPopUpOpen]);
 
   function handleConfirmOperation() {
+    dispatch(setReferrer('transaction'))
     moveTo('/confirm');
   }
 
@@ -268,7 +273,7 @@ function App() {
           />
           <Route path="/home" element={<MainPage />} />
           <Route path="/bind-card" element={<BindCardPage waypoint="/buy" spareWaypoint="/home" />} />
-          <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home" />} />
+          <Route path="/buy" element={<BuyCryptoPage waypoint="/confirm" spareWaypoint="/home"  confirmBuy={handleConfirmOperation}  />} />
           <Route path="/exchange" element={<ExchangePage confirmExchange={handleConfirmOperation} />} />
           <Route
             path="/confirm"

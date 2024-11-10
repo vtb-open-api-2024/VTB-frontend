@@ -8,9 +8,10 @@ import { useDispatch, useSelector } from 'react-redux';
 interface iBuyCryptoPage {
   waypoint?: string;
   spareWaypoint?: string;
+  confirmBuy: () => void
 }
 
-export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCryptoPage) => {
+export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/', confirmBuy }: iBuyCryptoPage) => {
   const dispatch = useDispatch<AppDispatch>();
   const cards = useSelector((state: RootState) => state.wallets.cards);
 
@@ -108,6 +109,10 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCrypt
     );
   }, [CardcurrentIndex]);
 
+  function handleBuy() {
+    if (isOk) confirmBuy() 
+  }
+
   return (
     <div className={'page ' + styles.container}>
       <div className={styles.header}>
@@ -170,7 +175,7 @@ export const BuyCryptoPage = ({ waypoint = '/', spareWaypoint = '/' }: iBuyCrypt
       <button
         disabled={!isOk}
         className={styles.buyBtn + ' button '}
-        onClick={() => (isOk ? moveTo(waypoint) : console.log('nope'))}
+        onClick={handleBuy}
       >
         Купить
       </button>
