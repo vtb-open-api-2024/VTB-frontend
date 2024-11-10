@@ -41,7 +41,6 @@ export const BindCardPage = ({ waypoint = '/', spareWaypoint = '/' }: iLogInPage
       const formatted = newInput.replace(/(?=.{5})(.{4})/g, '$1 - '); // Format as "XXXX - XXXX - XXXX - XXXX"
       setCardNumber(formatted);
     }
-
   };
 
   return (

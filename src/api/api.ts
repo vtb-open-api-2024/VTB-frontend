@@ -8,8 +8,8 @@ class Request {
 
   constructor({ url }: { url: string }) {
     this._baseUrl = url;
-    const tokensExist = localStorage.getItem('tokens')
-    this.tokens = tokensExist ? JSON.parse(tokensExist) : null
+    const tokensExist = localStorage.getItem('tokens');
+    this.tokens = tokensExist ? JSON.parse(tokensExist) : null;
   }
 
   _checkResponse(res: any) {
@@ -28,7 +28,7 @@ class Request {
   }
 
   getWallets(portfolioId?: number) {
-    const portflioUrlSuffix = portfolioId ? `?portfolioId=${portfolioId}` : ''
+    const portflioUrlSuffix = portfolioId ? `?portfolioId=${portfolioId}` : '';
 
     return fetch(`${this._baseUrl}/portfolio${portflioUrlSuffix}`, {
       method: 'GET',

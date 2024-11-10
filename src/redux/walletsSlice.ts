@@ -2,20 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Card, CurrencyEnum, Wallet } from '../types';
 import { cards, firstWallet } from '../mockData';
 
-
 interface WalletsState {
   wallets: Wallet[];
   choosenWallet: Wallet;
   chooseWalletOpened: boolean;
 
-  cards: Card[]
+  cards: Card[];
 }
 
 const initialState: WalletsState = {
   wallets: [firstWallet] as Wallet[], // portfolios
   choosenWallet: firstWallet,
   chooseWalletOpened: false,
-  cards: cards
+  cards: cards,
 };
 
 const walletsSlice = createSlice({

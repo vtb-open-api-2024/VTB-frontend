@@ -41,7 +41,7 @@ export const PwdEntryPage = ({ handleLoggedByPassword, handleForgotPassword }: i
 
   useEffect(() => {
     console.log('logged by pass', loggedByPassword);
-    
+
     if (loggedByPassword) {
       handleLoggedByPassword();
     } else if (loggedByPassword !== null) {
