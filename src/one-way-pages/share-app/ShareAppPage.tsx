@@ -13,7 +13,7 @@ export const ShareAppPG = ({ waypoint = '/' }: iShareAppPG) => {
       <h1 className={styles.header}>
         <span>Поделитесь</span> приложением с друзьями
       </h1>
-      <img className={styles.qrCode} src="/public/qrCode.svg" alt="" />
+      <img className={styles.qrCode} src="/qrCode.svg" alt="" />
       <p className={styles.paragraph}>
         И получите возможность обмениваться и дарить валюту
         <span> друг с другом</span>

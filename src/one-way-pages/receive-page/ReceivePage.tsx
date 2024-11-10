@@ -14,7 +14,7 @@ export const ReceivePg = ({ waypoint = '/' }: iShareAppPG) => {
       <h1 className={styles.header}>
         <span>Поделитесь</span> Qr
       </h1>
-      <img className={styles.qrCode} src="/public/qrCode.svg" alt="" />
+      <img className={styles.qrCode} src="/qrCode.svg" alt="" />
       {/* QRCODE GENERATOR */}
       {/* <QRCodeSVG
         value={'test text'}
