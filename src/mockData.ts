@@ -16,7 +16,7 @@ export const bindCardPopupData: PopupData = {
   waypoint: '/bind-card',
   msg: 'Добавьте карту и покупайте валюту прямо в свой кошелек',
   desc: '',
-  img: 'src/assets/creditCard.png',
+  img: '/assets/creditCard.png',
   buttonText: 'Продолжить',
   minibuttonText: 'Выпустить карту ВТБ',
   type: 'bind',
