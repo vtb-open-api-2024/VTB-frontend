@@ -95,7 +95,6 @@ function App() {
     }
     if (passwordReferrer === 'transaction') {
       moveTo('/transaction');
-      openInviteFriensCardPopup();
     }
   }
 
@@ -247,11 +246,17 @@ function App() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPopUpOpen]);
 
   function handleConfirmOperation() {
     dispatch(setReferrer('transaction'));
     moveTo('/confirm');
+  }
+
+  function transactionHandle() {
+    moveTo('/home');
+    openInviteFriensCardPopup();
   }
 
   return (
@@ -291,7 +296,7 @@ function App() {
               />
             }
           />
-          <Route path="/transaction" element={<TransActionPage waypoint="/home" />} />
+          <Route path="/transaction" element={<TransActionPage transactionHandle={transactionHandle} />} />
           <Route path="/share-app" element={<ShareAppPG waypoint="/home" />} />
           <Route path="/history" element={<History />} />
           <Route path="/receive" element={<ReceivePg waypoint="/home" />} />

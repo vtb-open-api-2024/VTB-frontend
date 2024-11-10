@@ -9,7 +9,8 @@
 }
 
 .invite_container {
-  background-image: url('src/assets/inviteFriends.png');
+  height: 495px;
+  background-image: url('/assets/inviteFriends.png');
 }
 
 .invite_container_desc {
@@ -37,7 +38,7 @@
 }
 
 .container img {
-  width: 430px;
+  width: 380px;
 }
 
 .container button {
