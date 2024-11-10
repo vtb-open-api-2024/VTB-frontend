@@ -24,10 +24,10 @@ export const WalletWiewCMP = () => {
   };
 
   const handleTouchEnd = () => {
-    if (touchStartX.current - touchEndX.current > 150) {
+    if (touchStartX.current - touchEndX.current > 100) {
       // Swipe left
       setCurrentIndex((prevIndex) => (prevIndex < wallets.length - 1 ? prevIndex + 1 : 0));
-    } else if (touchEndX.current - touchStartX.current > 150) {
+    } else if (touchEndX.current - touchStartX.current > 100) {
       // Swipe right
       setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : wallets.length - 1));
     }
