@@ -1,6 +1,4 @@
 .navBarMenu {
-  top: 87vh;
-  position: fixed;
   max-width: 98%;
   display: flex;
   justify-content: space-between;

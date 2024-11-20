@@ -185,25 +185,25 @@ function App() {
   }, [isAuthenticated]);
 
   function openBindCardPopup() {
-    const isBind = localStorage.getItem('isCardBound');
+    const isBind = sessionStorage.getItem('isCardBound');
     if (isBind) {
       return;
     } else {
       dispatch(updatePopUpData(bindCardPopupData));
       dispatch(openPopUp());
-      localStorage.setItem('isCardBound', JSON.stringify(true));
+      sessionStorage.setItem('isCardBound', JSON.stringify(true));
     }
   }
 
-  // setItem in localstorage after buy
+  // setItem in sessionStorage after buy
   function openInviteFriensCardPopup() {
-    const isBind = localStorage.getItem('isFriendsInvited');
+    const isBind = sessionStorage.getItem('isFriendsInvited');
     if (isBind) {
       return;
     } else {
       dispatch(updatePopUpData(inviteFriendPopupData));
       dispatch(openPopUp());
-      localStorage.setItem('isFriendsInvited', JSON.stringify(true));
+      sessionStorage.setItem('isFriendsInvited', JSON.stringify(true));
     }
   }
 

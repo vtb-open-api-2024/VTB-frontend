@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Tokens } from '../redux/authSlice';
 
 type Phone = { phone: string };
@@ -30,7 +31,7 @@ class Auth {
     formData.append('phone', phone);
 
     const myHeaders = new Headers();
-    myHeaders.append('accept', '*/*');
+    myHeaders.append('accept', 'application/json');
 
     return fetch(`${this._baseUrl}/auth/send-code`, {
       method: 'POST',
@@ -42,7 +43,7 @@ class Auth {
 
   sendVerifCode(code: string): Promise<Tokens> {
     const myHeaders = new Headers();
-    myHeaders.append('accept', '*/*');
+    myHeaders.append('accept', 'application/json');
 
     const formdata = new FormData();
     formdata.append('code', code);

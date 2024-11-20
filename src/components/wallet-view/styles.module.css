@@ -2,7 +2,7 @@
   overflow: hidden; /* Prevents showing items outside the view */
   position: relative;
   width: 100vw; /* Full viewport width */
-  height: 100%; /* Ensure it takes the full height of the parent */
+  height: 100vh; /* Ensure it takes the full height of the parent */
 }
 
 .walletView {

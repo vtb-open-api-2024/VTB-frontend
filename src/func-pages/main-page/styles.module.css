@@ -1,5 +1,9 @@
 .container {
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh);
+  padding-bottom: 50px;
 }
 
 .navBarWrapper {

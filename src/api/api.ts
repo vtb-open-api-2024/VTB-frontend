@@ -8,7 +8,7 @@ class Request {
 
   constructor({ url }: { url: string }) {
     this._baseUrl = url;
-    const tokensExist = localStorage.getItem('tokens');
+    const tokensExist = sessionStorage.getItem('tokens');
     this.tokens = tokensExist ? JSON.parse(tokensExist) : null;
   }
 

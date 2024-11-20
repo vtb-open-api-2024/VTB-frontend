@@ -25,7 +25,7 @@ const passwordCreated = !!localStorage.getItem('password');
 const passwordConfirmed = localStorage.getItem('password') ? true : null;
 const password = localStorage.getItem('password') ?? '';
 
-const tokensExist = localStorage.getItem('tokens');
+const tokensExist = sessionStorage.getItem('tokens');
 const tokens = tokensExist ? JSON.parse(tokensExist) : null;
 
 const initialState: AuthState = {
@@ -54,7 +54,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.loggedByPassword = null;
-      localStorage.removeItem('tokens');
+      sessionStorage.removeItem('tokens');
     },
     setSignInError(state, action: PayloadAction<boolean>) {
       state.signInError = action.payload;
@@ -64,7 +64,7 @@ const authSlice = createSlice({
     },
     setTokens(state, action: PayloadAction<Tokens>) {
       state.tokens = action.payload;
-      localStorage.setItem('tokens', JSON.stringify(tokens));
+      sessionStorage.setItem('tokens', JSON.stringify(action.payload));
     },
     createPassword(state, action: PayloadAction<string>) {
       state.password = action.payload;
