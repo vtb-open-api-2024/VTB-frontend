@@ -54,7 +54,12 @@ export const BindCardPage = ({ waypoint = '/', spareWaypoint = '/' }: iLogInPage
           placeholder="XXXX - XXXX - XXXX - XXXX"
           className={styles.cardInput} // Add appropriate styles
         />
-        <button type="submit" onClick={() => cardInputFormHandler()} className={styles.button + ' button'}>
+        <button
+          type="submit"
+          onClick={() => cardInputFormHandler()}
+          className={`${styles.button} button ${cardNumber.length !== 25 && styles.button_disabled}`}
+          disabled={cardNumber.length !== 25}
+        >
           Привязать карту
         </button>
         {/* Numpad */}

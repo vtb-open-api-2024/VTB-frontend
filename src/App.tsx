@@ -17,7 +17,7 @@ import { AppDispatch, RootState, store } from './redux/store';
 import { auth } from './api/auth';
 import { login, logout, setAuthError, setReferrer, setSignInError, setTokens } from './redux/authSlice';
 import { History } from './func-pages/history-page/History';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ExchangePage } from './func-pages/exchange-page/Exchange';
 import { request } from './api/api';
 import { PopUpCMP } from './components/pop-up/PopUp';
@@ -25,6 +25,7 @@ import { closePopUp, openPopUp, updatePopUpData } from './redux/popUpSlice';
 import { addWallet, setWallets } from './redux/walletsSlice';
 import { bindCardPopupData, inviteFriendPopupData } from './mockData';
 import { ReceivePg } from './one-way-pages/receive-page/ReceivePage';
+import { Menu } from './components/menu/Menu';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -39,9 +40,12 @@ function App() {
   const popUpData = useSelector((state: RootState) => state.popup.data);
   const isPopUpOpen = useSelector((state: RootState) => state.popup.isOpen);
 
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
   const moveTo = useNavigate();
 
   const popupRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
   function handleSignInSubmit(number: string) {
     auth
@@ -52,12 +56,12 @@ function App() {
       })
       .catch(() => {
         dispatch(setSignInError(true));
-      })
-      // .finally(() => {
-      //   // заглушка пока бэк не работает
-      //   dispatch(setSignInError(false));
-      //   moveTo('/auth');
-      // });
+      });
+    // .finally(() => {
+    //   // заглушка пока бэк не работает
+    //   dispatch(setSignInError(false));
+    //   moveTo('/auth');
+    // });
   }
 
   function handleAuthCodeSubmit(code: string) {
@@ -75,16 +79,16 @@ function App() {
       .catch(() => {
         setAuthError(true);
         dispatch(logout());
-      })
-      // .finally(() => {
-      //   setAuthError(false);
-      //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
-      //   if (passwordConfirmed) {
-      //     moveTo('/psw-enter');
-      //   } else {
-      //     moveTo('/psw-create');
-      //   }
-      // });
+      });
+    // .finally(() => {
+    //   setAuthError(false);
+    //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
+    //   if (passwordConfirmed) {
+    //     moveTo('/psw-enter');
+    //   } else {
+    //     moveTo('/psw-create');
+    //   }
+    // });
   }
 
   // props to waypoint
@@ -144,11 +148,11 @@ function App() {
 
     validateToken()
       .then(() => request.getWallets())
-      .then((wallets) => {
-        if (!wallets) {
+      .then(({ portfolios }) => {
+        if (!portfolios) {
           return true;
         }
-        dispatch(setWallets(wallets));
+        dispatch(setWallets(portfolios));
         return false;
       })
       .then((emptywallets: boolean) => {
@@ -259,11 +263,56 @@ function App() {
     openInviteFriensCardPopup();
   }
 
+  function handleBurger() {
+    setMenuOpen(true);
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  function menuHandler(path: string) {
+    switch (path) {
+      case 'bind':
+        moveTo('/bind-card');
+        closeMenu();
+        return;
+      case 'buy':
+        moveTo('/buy');
+        closeMenu();
+        return;
+      case 'exchange':
+        moveTo('/exchange');
+        closeMenu();
+        return;
+      case 'send':
+        moveTo('/send');
+        closeMenu();
+        return;
+      case 'receive':
+        moveTo('/receive');
+        closeMenu();
+        return;
+      case 'history':
+        moveTo('/history');
+        closeMenu();
+        return;
+      case 'logout':
+        dispatch(logout());
+        moveTo('/');
+        closeMenu();
+        return;
+    }
+  }
+
   return (
     <Provider store={store}>
       <div className="layout">
         <div ref={popupRef} className={styles.popUp + ' ' + (isPopUpOpen ? styles.popUpVisible : styles.popUpHidden)}>
           {isPopUpOpen && <PopUpCMP closePopup={closePopup} popupHandler={handlePopupAction} />}
+        </div>
+        <div ref={menuRef} className={styles.menu + ' ' + (isMenuOpen ? styles.menuVisible : styles.menuHidden)}>
+          {isMenuOpen && <Menu menuHandler={menuHandler} closeMenu={closeMenu} />}
         </div>
         <Routes>
           <Route path="/" element={<HeroPG waypoint={'/sign-up'} spareWaypoint={'/binding'} />} />
@@ -280,7 +329,7 @@ function App() {
               />
             }
           />
-          <Route path="/home" element={<MainPage />} />
+          <Route path="/home" element={<MainPage burgerHandle={handleBurger} />} />
           <Route path="/bind-card" element={<BindCardPage waypoint="/buy" spareWaypoint="/home" />} />
           <Route
             path="/buy"

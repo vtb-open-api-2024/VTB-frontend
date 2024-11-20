@@ -4,6 +4,13 @@ export type Wallet = {
   currensies: CurrenciesItem[];
 };
 
+export type Portfolio = {
+  title: string;
+  portfolioId: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  wallets: any[];
+};
+
 export type CurrenciesItem = { currency: Currency; ammount: number };
 
 export type Currency = {

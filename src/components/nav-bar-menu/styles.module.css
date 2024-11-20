@@ -19,6 +19,10 @@
   padding: 0;
 }
 
+.navBtnContainer:active {
+  background: none;
+}
+
 .iconContainer {
   width: 32px;
   height: 32px;

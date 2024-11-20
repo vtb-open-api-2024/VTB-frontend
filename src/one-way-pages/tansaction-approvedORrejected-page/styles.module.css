@@ -25,6 +25,7 @@
   bottom: 40px;
   background: rgb(0, 51, 136);
   background: linear-gradient(40deg, rgba(0, 51, 136, 1) 0%, rgba(0, 0, 0, 1) 100%);
+  max-width: calc(100% - 60px);
 }
 
 .herobutton:active {

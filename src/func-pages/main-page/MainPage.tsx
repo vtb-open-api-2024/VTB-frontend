@@ -3,10 +3,14 @@ import { NavBarMenuCMP } from '../../components/nav-bar-menu/NavBarMenu';
 import { WalletWiewCMP } from '../../components/wallet-view/WalletView';
 import styles from './styles.module.css';
 
-export const MainPage = () => {
+interface iMainPage {
+  burgerHandle: () => void;
+}
+
+export const MainPage = ({ burgerHandle }: iMainPage) => {
   return (
     <div className={styles.container + ' ' + 'page'}>
-      <HeaderCMP />
+      <HeaderCMP burgerHandle={burgerHandle} />
       <WalletWiewCMP />
       <div className={styles.navBarWrapper}>
         <NavBarMenuCMP />

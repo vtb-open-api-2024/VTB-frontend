@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { Card, Currency, CurrencyEnum } from '../../types';
@@ -166,6 +167,7 @@ export const ExchangePage = ({ confirmExchange, spareWaypoint = '/home' }: iExch
           style={{ transform: `translateX(-${CardcurrentIndex * 100}%)` }}
           draggable="false"
         >
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           {choosenWallet.currensies.map((currency, _id) => (
             <div className={styles.cardWrapper + ' ' + styles.currencyCard}>
               <div className={styles.CurrencyInfoWrapper}>

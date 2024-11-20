@@ -1,0 +1,35 @@
+.container {
+  color: white;
+}
+
+.menu__list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu__item {
+  padding: 10px 10px 15px;
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.356);
+}
+
+.menu__exit {
+  padding-top: 50px;
+  border-bottom: none;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.356);
+}
+
+.menu__close {
+  padding-left: 10px;
+  color: #fff;
+  font-weight: 500;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 16px;
+}
+
+.menu__close:active {
+  background: none;
+}
