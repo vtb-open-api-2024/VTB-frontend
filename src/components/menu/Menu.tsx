@@ -42,7 +42,7 @@ export const Menu = ({ menuHandler, closeMenu }: iMenu) => {
         <li
           className={`${styles.menu__item}`}
           onClick={() => {
-            menuHandler('send');
+            
           }}
         >
           Отправить
