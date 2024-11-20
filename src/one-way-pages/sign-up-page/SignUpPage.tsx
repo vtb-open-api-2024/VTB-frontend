@@ -13,7 +13,7 @@ export const SignUpPage = ({ signInHandler }: iSignUpPage) => {
 
   const SignUpFormHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    signInHandler('+7 ' + number);
+    signInHandler('+7' + number);
   };
 
   const formatPhoneNumber = (value: string) => {
