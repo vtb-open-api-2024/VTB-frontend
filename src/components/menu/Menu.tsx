@@ -39,12 +39,7 @@ export const Menu = ({ menuHandler, closeMenu }: iMenu) => {
         >
           Обмен
         </li>
-        <li
-          className={`${styles.menu__item}`}
-          onClick={() => {
-            
-          }}
-        >
+        <li className={`${styles.menu__item}`} onClick={() => {}}>
           Отправить
         </li>
         <li

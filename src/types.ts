@@ -32,3 +32,18 @@ export type Card = {
   cardExpiryDate?: string;
   balance: number;
 };
+
+export type Transaction = {
+  type: string;
+  productId: string;
+  transactionDate: string;
+  transactionTime: string;
+  transactionId: string;
+  transactionType: 'INCOME' | 'OUTCOME';
+  amount: number;
+  currency: 'USD';
+  merchantId: string;
+  merchantName: string;
+  merchantCategory: string;
+  paymentMeta: string;
+};

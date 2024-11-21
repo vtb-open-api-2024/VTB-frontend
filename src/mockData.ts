@@ -1,4 +1,4 @@
-import { Card, CurrencyEnum, Wallet } from './types';
+import { Card, CurrencyEnum, Transaction, Wallet } from './types';
 
 export type PopupType = 'bind' | 'invite' | null;
 
@@ -71,3 +71,48 @@ export const cards: Card[] = [
     balance: 10500,
   },
 ];
+
+export const mockTransactionFirst: Transaction = {
+  type: 'CARD',
+  productId: '1234567890123456',
+  transactionDate: '2024-01-01',
+  transactionTime: '14:30:00',
+  transactionId: 'tx_00123456789',
+  transactionType: 'INCOME',
+  amount: 150.75,
+  currency: 'USD',
+  merchantId: 'merchant_12345',
+  merchantName: 'Acme Corporation',
+  merchantCategory: 'Супермаркеты',
+  paymentMeta: '+1234567890',
+};
+
+export const mockTransactionSecond: Transaction = {
+  type: 'CARD',
+  productId: '1234567890123456',
+  transactionDate: '2023-02-01',
+  transactionTime: '14:30:00',
+  transactionId: 'tx_00123456789',
+  transactionType: 'INCOME',
+  amount: 199.75,
+  currency: 'USD',
+  merchantId: 'merchant_12345',
+  merchantName: 'Acme Corporation',
+  merchantCategory: 'Супермаркеты',
+  paymentMeta: '+1234567890',
+};
+
+export const mockTransactionThird: Transaction = {
+  type: 'CARD',
+  productId: '1234567890123456',
+  transactionDate: '2023-01-01',
+  transactionTime: '14:30:00',
+  transactionId: 'tx_00123456789',
+  transactionType: 'OUTCOME',
+  amount: 345.75,
+  currency: 'USD',
+  merchantId: 'merchant_12345',
+  merchantName: 'Acme Corporation',
+  merchantCategory: 'Супермаркеты',
+  paymentMeta: '+1234567890',
+};

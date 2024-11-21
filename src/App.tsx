@@ -305,6 +305,10 @@ function App() {
     }
   }
 
+  function handleReturnToMainPage() {
+    moveTo('/home');
+  }
+
   return (
     <Provider store={store}>
       <div className="layout">
@@ -347,7 +351,7 @@ function App() {
           />
           <Route path="/transaction" element={<TransActionPage transactionHandle={transactionHandle} />} />
           <Route path="/share-app" element={<ShareAppPG waypoint="/home" />} />
-          <Route path="/history" element={<History />} />
+          <Route path="/history" element={<History handleReturnToMainPage={handleReturnToMainPage} />} />
           <Route path="/receive" element={<ReceivePg waypoint="/home" />} />
         </Routes>
       </div>

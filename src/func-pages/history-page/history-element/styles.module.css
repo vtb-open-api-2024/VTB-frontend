@@ -1,0 +1,56 @@
+.history_element_container {
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history_element_wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.transaction__image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: blueviolet;
+}
+
+.transaction__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction__type {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.transaction__resource {
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.amount {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.amount_income {
+  color: #58e018;
+}
+
+.amount_income::before {
+  content: '+ ';
+}
+
+.amount_outcome {
+  color: #e01818;
+}
+
+.amount_outcome::before {
+  content: '- ';
+}
