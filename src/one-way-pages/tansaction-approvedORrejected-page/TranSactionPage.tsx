@@ -3,6 +3,10 @@ import { TransactionApprovedIcon } from '../../components/icons/TransactionAppro
 import { TransactionDenyIcon } from '../../components/icons/TransactionDenyIcon';
 import { RubleIcon } from './currencyIcons/rubleIcon';
 import { BtcIcon } from './currencyIcons/btcIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { setSignInError } from '../../redux/authSlice';
+import { EtcIcon } from './currencyIcons/etcIcon';
 
 interface iHeroPG {
   transactionHandle: () => void;
@@ -10,13 +14,16 @@ interface iHeroPG {
 
 export const TransActionPage = ({ transactionHandle }: iHeroPG) => {
   // store для хранения информации о транзакции
+  const dispatch = useDispatch<AppDispatch>();
+  const { ammountBtc, ammountEtc, ammountRub } = useSelector((state: RootState) => state.wallets.lastTransaction);
+  dispatch(setSignInError(false));
 
   const transactionInfo = {
     transactionId: 'T1234567890',
     sellitem: 'RUB',
-    sellAmmount: 10000000,
-    buyItem: 'BTC',
-    buyAmmount: 2,
+    sellAmmount: ammountRub,
+    buyItem: ammountBtc != 0 ? 'BTC' : 'ETC',
+    buyAmmount: ammountBtc != 0 ? ammountBtc : ammountEtc,
     status: 'approved',
     user: 'John Doe',
   };
@@ -40,8 +47,8 @@ export const TransActionPage = ({ transactionHandle }: iHeroPG) => {
           <div>{transactionInfo.status == 'approved' ? <TransactionApprovedIcon /> : <TransactionDenyIcon />}</div>
         </div>
         <div className={styles.rightSide}>
-          <BtcIcon />
-          <p>{transactionInfo.buyAmmount}</p>
+          {ammountBtc != 0 ? <BtcIcon /> : <EtcIcon />}
+          <p>+ {transactionInfo.buyAmmount}</p>
         </div>
       </div>
       <button onClick={transactionHandle} className={'button ' + styles.herobutton}>
