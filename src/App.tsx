@@ -57,11 +57,11 @@ function App() {
       .catch(() => {
         dispatch(setSignInError(true));
       });
-    // .finally(() => {
-    //   // заглушка пока бэк не работает
-    //   dispatch(setSignInError(false));
-    //   moveTo('/auth');
-    // });
+      // .finally(() => {
+      //   // заглушка пока бэк не работает
+      //   dispatch(setSignInError(false));
+      //   moveTo('/auth');
+      // });
   }
 
   function handleAuthCodeSubmit(code: string) {
@@ -80,15 +80,15 @@ function App() {
         setAuthError(true);
         dispatch(logout());
       });
-    // .finally(() => {
-    //   setAuthError(false);
-    //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
-    //   if (passwordConfirmed) {
-    //     moveTo('/psw-enter');
-    //   } else {
-    //     moveTo('/psw-create');
-    //   }
-    // });
+      // .finally(() => {
+      //   setAuthError(false);
+      //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
+      //   if (passwordConfirmed) {
+      //     moveTo('/psw-enter');
+      //   } else {
+      //     moveTo('/psw-create');
+      //   }
+      // });
   }
 
   // props to waypoint
@@ -111,29 +111,29 @@ function App() {
   }
 
   function validateToken() {
-    return Promise.resolve();
-
-    // if (tokens) {
-    //   return auth
-    //     .validateToken(tokens)
-    //     .then((valid) => {
-    //       if (valid) {
-    //         dispatch(login())
-    //       } else {
-    //         auth.refreshToken(tokens).then((tokens) => {
-    //           dispatch(setTokens(tokens))
-    //           dispatch(login())
-    //         }).catch(() => {
-    //           dispatch(logout())
-    //           console.log('error on refreshTokens')
-    //         })
-    //       }
-
-    //     })
-    //     .catch(() => {
-    //       dispatch(logout());
-    //     });
-    // }
+    if (tokens) {
+      return auth
+        .validateToken(tokens)
+        .then((valid) => {
+          if (valid) {
+            dispatch(login());
+          } else {
+            auth
+              .refreshToken(tokens)
+              .then((tokens) => {
+                dispatch(setTokens(tokens));
+                dispatch(login());
+              })
+              .catch(() => {
+                dispatch(logout());
+                console.log('error on refreshTokens');
+              });
+          }
+        })
+        .catch(() => {
+          dispatch(logout());
+        });
+    }
 
     return Promise.reject().then(
       () => {},
