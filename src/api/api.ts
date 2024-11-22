@@ -27,7 +27,7 @@ class Request {
     );
   }
 
-  getWallets(portfolioId?: number): Promise<{ portfolios: { title: string; portfolioId: number; wallets: any[] }[] }> {
+  getWallets(portfolioId?: number): Promise<{ portfolios: Wallet[] }> {
     const portflioUrlSuffix = portfolioId ? `?portfolioId=${portfolioId}` : '';
 
     return fetch(`${this._baseUrl}/portfolio${portflioUrlSuffix}`, {

@@ -23,7 +23,7 @@ const walletsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setWallets: (state, action: PayloadAction<Wallet[]>) => {
-      state.wallets = { ...action.payload };
+      state.wallets = action.payload;
     },
     addWallet: (state, action: PayloadAction<Wallet>) => {
       state.wallets.push(action.payload);
@@ -32,6 +32,8 @@ const walletsSlice = createSlice({
       state.choosenWallet = action.payload;
     },
     toggleChooseWallet(state, action: PayloadAction<boolean>) {
+      console.log(action.payload);
+
       state.chooseWalletOpened = action.payload;
     },
     transaction(state, action: PayloadAction<{ card: Card; ammount: number }>) {
@@ -44,14 +46,14 @@ const walletsSlice = createSlice({
     },
     currencyBuy(state, action: PayloadAction<{ currencyAmmount: number; curIndex: number; wallet: Wallet }>) {
       state.wallets.forEach((wallet) => {
-        if (wallet.portfolioId === action.payload.wallet.portfolioId) {
+        if (wallet.id === action.payload.wallet.id) {
           switch (action.payload.curIndex) {
             case 0: {
-              wallet.wallets[0].ammount -= action.payload.currencyAmmount;
+              wallet.currensies[0].ammount -= action.payload.currencyAmmount;
               break;
             }
             case 1: {
-              wallet.wallets[1].ammount -= action.payload.currencyAmmount;
+              wallet.currensies[1].ammount -= action.payload.currencyAmmount;
               break;
             }
             default: {

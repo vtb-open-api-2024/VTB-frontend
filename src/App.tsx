@@ -26,6 +26,7 @@ import { addWallet, setWallets } from './redux/walletsSlice';
 import { bindCardPopupData, inviteFriendPopupData } from './mockData';
 import { ReceivePg } from './one-way-pages/receive-page/ReceivePage';
 import { Menu } from './components/menu/Menu';
+import { Wallet } from './types';
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,11 +58,11 @@ function App() {
       .catch(() => {
         dispatch(setSignInError(true));
       });
-      // .finally(() => {
-      //   // заглушка пока бэк не работает
-      //   dispatch(setSignInError(false));
-      //   moveTo('/auth');
-      // });
+    // .finally(() => {
+    //   // заглушка пока бэк не работает
+    //   dispatch(setSignInError(false));
+    //   moveTo('/auth');
+    // });
   }
 
   function handleAuthCodeSubmit(code: string) {
@@ -80,15 +81,15 @@ function App() {
         setAuthError(true);
         dispatch(logout());
       });
-      // .finally(() => {
-      //   setAuthError(false);
-      //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
-      //   if (passwordConfirmed) {
-      //     moveTo('/psw-enter');
-      //   } else {
-      //     moveTo('/psw-create');
-      //   }
-      // });
+    // .finally(() => {
+    //   setAuthError(false);
+    //   dispatch(setTokens({ accessToken: '', refreshToken: '' }));
+    //   if (passwordConfirmed) {
+    //     moveTo('/psw-enter');
+    //   } else {
+    //     moveTo('/psw-create');
+    //   }
+    // });
   }
 
   // props to waypoint
@@ -152,7 +153,7 @@ function App() {
         if (!portfolios) {
           return true;
         }
-        dispatch(setWallets(portfolios));
+        dispatch(setWallets(portfolios as Wallet[]));
         return false;
       })
       .then((emptywallets: boolean) => {
@@ -165,7 +166,7 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.json());
       });
   }
 

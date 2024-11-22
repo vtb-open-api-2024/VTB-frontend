@@ -1,16 +1,22 @@
-export type SubWallet = {
-  walletId: number;
-  address: string;
-  tokenId: number;
-  balance: string; //нужно парсить - parseFloat(a.balance.shift())
+export type Wallet = {
+  id: string;
+  name: string;
+  currensies: CurrenciesItem[];
 };
 
-export type Wallet = {
-  title: string;
-  portfolioId: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  wallets: any[];
-};
+// export type SubWallet = {
+//   walletId: number;
+//   address: string;
+//   tokenId: number;
+//   balance: string; //нужно парсить - parseFloat(a.balance.shift())
+// };
+
+// export type Wallet = {
+//   title: string;
+//   portfolioId: number;
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   wallets: any[];
+// };
 
 export type Portfolio = {
   title: string;
