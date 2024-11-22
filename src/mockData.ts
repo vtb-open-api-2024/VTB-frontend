@@ -56,7 +56,7 @@ export const firstWallet: Wallet = {
 export const cards: Card[] = [
   {
     id: '0',
-    cardHolderName: undefined,
+    cardHolderName: 'John Doe',
     CardName: 'Карта ВТБ',
     cardNumber: '2002200220022002',
     cardExpiryDate: undefined,
@@ -65,7 +65,7 @@ export const cards: Card[] = [
   {
     id: '1',
     cardHolderName: undefined,
-    CardName: 'VTB Card',
+    CardName: 'Карта ВТБ',
     cardNumber: '200220022002222',
     cardExpiryDate: undefined,
     balance: 10500,

@@ -2,9 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import styles from './styles.module.css';
 import { Currency, CurrencyEnum } from '../../types';
 import { useEffect, useRef, useState } from 'react';
-import { RootState } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
 import { BackArrowIcon } from '../../components/icons/backArrowIcon';
+import { currencyBuy, setLastTransaction, transaction } from '../../redux/walletsSlice';
 
 interface iBuyCryptoPage {
   waypoint?: string;
@@ -13,7 +14,9 @@ interface iBuyCryptoPage {
 }
 
 export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPage) => {
+  const dispatch = useDispatch<AppDispatch>();
   const cards = useSelector((state: RootState) => state.wallets.cards);
+  const choosenWallet = useSelector((state: RootState) => state.wallets.choosenWallet);
 
   const moveTo = useNavigate();
   const [CardcurrentIndex, setCardCurrentIndex] = useState(0);
@@ -26,9 +29,9 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
   const touchEndX = useRef(0);
 
   const currencies: Currency[] = [
-    { currency: CurrencyEnum.BTC, cource: 0.000015 },
-    { currency: CurrencyEnum.ETC, cource: 0.0055 },
-  ]; // fetch currencies from API or local storage
+    { currency: CurrencyEnum.BTC, cource: 9836551.5 },
+    { currency: CurrencyEnum.ETC, cource: 2751.72 },
+  ]; // fetch currencies from API or local storage ?
 
   //   slider for cards handlers
   const cardTohandleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
@@ -73,7 +76,7 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
 
     if (!isNaN(rubValue)) {
       setRubAmount(rubValue);
-      setCurrencyAmmount(rubValue * currencies[CurcurrentIndex].cource);
+      setCurrencyAmmount(rubValue / currencies[CurcurrentIndex].cource);
     } else {
       setRubAmount(0);
       setCurrencyAmmount(0);
@@ -86,7 +89,7 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
 
     if (!isNaN(currencyValue)) {
       setCurrencyAmmount(currencyValue);
-      setRubAmount(currencyValue / currencies[CurcurrentIndex].cource);
+      setRubAmount(currencyValue * currencies[CurcurrentIndex].cource);
     } else {
       setCurrencyAmmount(0);
       setRubAmount(0);
@@ -94,7 +97,7 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
   };
 
   useEffect(() => {
-    setCurrencyAmmount(rubAmmount * currencies[CurcurrentIndex].cource);
+    setCurrencyAmmount(rubAmmount / currencies[CurcurrentIndex].cource);
   }, [CurcurrentIndex]);
 
   useEffect(() => {
@@ -110,7 +113,19 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
   }, [CardcurrentIndex]);
 
   function handleBuy() {
-    if (isOk) confirmBuy();
+    if (isOk) {
+      // по хорошему после подтверждения только но так как по хорошему все на беке то пофиг))
+      dispatch(transaction({ card: cards[CardcurrentIndex], ammount: rubAmmount }));
+      dispatch(currencyBuy({ currencyAmmount: currencyAmmount, curIndex: CurcurrentIndex, wallet: choosenWallet }));
+      dispatch(
+        setLastTransaction({
+          ammountRub: rubAmmount,
+          ammountEtc: CurcurrentIndex == 0 ? 0 : currencyAmmount,
+          ammountBtc: CurcurrentIndex == 0 ? currencyAmmount : 0,
+        }),
+      );
+      confirmBuy();
+    }
   }
 
   return (
@@ -164,7 +179,7 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
                 <h2 className={styles.cardHolder}>{currency.currency === CurrencyEnum.BTC ? 'Bitcoin' : 'Ethereum'}</h2>
               </div>
               <p className={styles.curCource} style={{ fontSize: '20px' }}>
-                {currency.cource.toFixed(6) + ' ₽'}
+                {currency.cource.toFixed(2) + ' ₽'}
               </p>
             </div>
           ))}
@@ -172,7 +187,11 @@ export const BuyCryptoPage = ({ spareWaypoint = '/', confirmBuy }: iBuyCryptoPag
       </div>
       {/* input for ammount */}
       <div className={styles.inputWrapper}>
-        <input type="number" value={currencyAmmount.toFixed(6)} onChange={currencyInputFieldChange} />
+        <input
+          type="number"
+          value={CurcurrentIndex == 0 ? currencyAmmount.toFixed(15) : currencyAmmount.toFixed(6)}
+          onChange={currencyInputFieldChange}
+        />
       </div>
       <button disabled={!isOk} className={styles.buyBtn + ' button '} onClick={handleBuy}>
         Купить
